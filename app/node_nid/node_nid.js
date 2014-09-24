@@ -1,10 +1,10 @@
 'use strict';
 
-angular.module('myApp.node', ['ngRoute'])
+angular.module('myApp.node_nid', ['ngRoute'])
 
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/node/:nid', {
-            templateUrl: 'node/node.html',
+            templateUrl: 'node_nid/node_nid.html',
             controller: 'NodeCtrl'
         });
     }])
