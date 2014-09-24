@@ -11,14 +11,14 @@
     </div>
     <div class="col-md-9">
         <article ng-repeat="node in nodes">
-            <h1>
+            <h2>
                 <a href="#/node/{{ node.nid[0].value }}">
                     {{ node.title[0].value }}
                 </a>
-            </h1>
+            </h2>
 
             <div class="meta">
-                Submitted by {{ node.uid[0].target_id }} on {{ node.created[0].value * 1000 | date:'medium' }}
+                Submitted by {{ node.user.name[0].value }} on {{ node.created[0].value * 1000 | date:'medium' }}
             </div>
             <p>
                 {{ node.body[0].summary }}
