@@ -10,6 +10,14 @@ angular.module('myApp.node_nid', ['ngRoute', 'drupalService'])
     }])
 
     .controller('NodeNidCtrl', function ($scope, $routeParams, Node, User, TaxonomyTerm) {
+        var anonymousUser = {
+            name: [
+                {
+                    value: "Anonymous"
+                }
+            ]
+        }
+
         $scope.tags = {}
         $scope.node = Node.get({nid: $routeParams.nid}, function (node) {
             if ($scope.node.uid[0].target_id == 0) {
