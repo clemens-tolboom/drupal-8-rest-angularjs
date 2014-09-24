@@ -5,11 +5,11 @@ angular.module('myApp.node_nid', ['ngRoute'])
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/node/:nid', {
             templateUrl: 'node_nid/node_nid.html',
-            controller: 'NodeCtrl'
+            controller: 'NodeNidCtrl'
         });
     }])
 
-    .controller('NodeCtrl', function ($scope, $http, $routeParams) {
+    .controller('NodeNidCtrl', function ($scope, $http, $routeParams) {
         $scope.nid = $routeParams.nid;
         $scope.node = {};
         $scope.taxonomy = {};

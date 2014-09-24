@@ -4,8 +4,8 @@
 angular.module('myApp', [
   'ngRoute',
   'myApp.node_nid',
-  'myApp.view2',
+  'myApp.node',
 ]).
 config(['$routeProvider', function($routeProvider) {
-  $routeProvider.otherwise({redirectTo: '/node/1'});
+  $routeProvider.otherwise({redirectTo: '/node'});
 }]);
