@@ -9,7 +9,7 @@ angular.module('myApp.node_nid', ['ngRoute', 'drupalService'])
         });
     }])
 
-    .controller('NodeNidCtrl', function ($scope, $routeParams, Node, User, TaxonomyTerm) {
+    .controller('NodeNidCtrl', function ($scope, $routeParams, Node, User, TaxonomyTerm, Comment) {
         var anonymousUser = {
             name: [
                 {
@@ -32,4 +32,11 @@ angular.module('myApp.node_nid', ['ngRoute', 'drupalService'])
                 }
             });
         });
+
+        $scope.comments = Comment.query({nid: $routeParams.nid});
+
+        $scope.postComment = function () {
+            $scope.newComment.nid = $routeParams.nid;
+            Comment.post({}, $scope.newComment);
+        }
     });

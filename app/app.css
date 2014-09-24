@@ -37,3 +37,13 @@ article {
     margin-bottom: 30px;
     padding-bottom: 15px;
 }
+
+.comment {
+    border-bottom: 1px solid #d3d7d9;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+}
+
+.comment h3{
+    font-size: 14pt;
+}

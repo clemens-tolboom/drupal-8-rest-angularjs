@@ -10,24 +10,52 @@
         </aside>
     </div>
     <div class="col-md-9">
-        <h1>{{ node.title[0].value }}</h1>
+        <article>
+            <h1>{{ node.title[0].value }}</h1>
 
-        <div class="meta">
-            Submitted by {{ node.user.name[0].value }} on {{ node.created[0].value * 1000 | date:'medium' }}
+            <div class="meta">
+                Submitted by {{ node.user.name[0].value }} on {{ node.created[0].value * 1000 | date:'medium' }}
+            </div>
+            <p>
+                {{ node.body[0].value }}
+            </p>
+
+            <p>
+                Tags:<br>
+            <ul>
+                <li ng-repeat="tag in node.field_tags">
+                    <a href="#/taxonomy/term/{{ tag.target_id }}">
+                        {{ tag.target_id }}
+                    </a>
+                </li>
+            </ul>
+            </p>
+        </article>
+        <h2>Comments</h2>
+
+        <form ng-submit="postComment()">
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" class="form-control" ng-model="newComment.name">
+            </div>
+            <div class="form-group">
+                <label>Subject</label>
+                <input type="text" class="form-control" ng-model="newComment.subject">
+            </div>
+            <div class="form-group">
+                <label>Message</label>
+                <textarea class="form-control" ng-model="newComment.comment_body"></textarea>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-default" value="Post comment">
+            </div>
+        </form>
+        <div class="comment" ng-repeat="comment in comments">
+            <h3>{{ comment.subject }}</h3>
+
+            <div class="meta">
+                By {{ comment.name }} on {{ comment.created }}
+            </div>
         </div>
-        <p>
-            {{ node.body[0].value }}
-        </p>
-
-        <p>
-            Tags:<br>
-        <ul>
-            <li ng-repeat="tag in node.field_tags">
-                <a href="#/taxonomy/term/{{ tag.target_id }}">
-                    {{ tag.target_id }}
-                </a>
-            </li>
-        </ul>
-        </p>
     </div>
 </div>

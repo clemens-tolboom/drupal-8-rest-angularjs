@@ -17,3 +17,12 @@ angular.module('drupalService', ['ngResource'])
     .factory('User', ['$resource', function ($resource) {
         return $resource('/user/:uid', {uid: '@uid'}, {});
     }])
+
+    .factory('Comment', ['$resource', function ($resource) {
+        return $resource('/node/:nid/comments', {nid: '@nid'}, {
+            'post': {
+                method: 'POST',
+                url: '/entity/comment'
+            }
+        });
+    }])
