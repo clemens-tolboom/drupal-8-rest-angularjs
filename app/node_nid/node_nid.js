@@ -36,7 +36,8 @@ angular.module('myApp.node_nid', ['ngRoute', 'drupalService'])
         $scope.comments = Comment.query({nid: $routeParams.nid});
 
         $scope.postComment = function () {
-            $scope.newComment.nid = $routeParams.nid;
+            $scope.newComment.entity_type = 'node';
+            $scope.newComment.entity_id = $routeParams.nid;
             Comment.post({}, $scope.newComment);
         }
     });

@@ -6,6 +6,10 @@ angular.module('drupalService', ['ngResource'])
                 method: 'GET',
                 url: '/node',
                 isArray: true
+            },
+            post: {
+                method: 'POST',
+                url: '/entity/node'
             }
         });
     }])
