@@ -16,10 +16,9 @@ angular.module('myApp.node_nid', ['ngRoute', 'drupalService'])
                     value: "Anonymous"
                 }
             ]
-        }
+        };
 
-        $scope.tags = {}
-
+        $scope.tags = {};
         // Fetch node entity for current nid
         $scope.node = Node.get({nid: $routeParams.nid}, function (node) {
 
