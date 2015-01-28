@@ -23,3 +23,15 @@ $ ln -s /path/to/drupal-8-rest-angularjs/app .
 ```
 
 [cors]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS
+
+## Drupal configuration
+
+### Modules
+
+Install and enable https://www.drupal.org/project/restui
+
+Edit view http://drupal.d8/admin/structure/views/view/frontpage and add a 'Rest export' display with path '/node'
+
+Check the configuration on http://drupal.d8/admin/config/services/rest
+
+Check the permissions on http://drupal.d8/admin/people/permissions for 'RESTful Web Services' permissions.
