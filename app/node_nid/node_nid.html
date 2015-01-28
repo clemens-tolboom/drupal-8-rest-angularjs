@@ -23,9 +23,9 @@
             <p>
                 Tags:<br>
             <ul>
-                <li ng-repeat="tag in node.field_tags">
-                    <a href="#/taxonomy/term/{{ tag.target_id }}">
-                        {{ tag.target_id }}
+                <li ng-repeat="tag in tags">
+                    <a href="#/taxonomy/term/{{ tag[0].tid[0].value }}">
+                        {{ tag[0].name[0].value }}
                     </a>
                 </li>
             </ul>

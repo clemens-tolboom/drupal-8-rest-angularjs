@@ -36,6 +36,16 @@ Add a "Rest export" display to view
 - http://drupal.d8/admin/structure/views/view/frontpage set path to '/node'
 - http://drupal.d8/admin/structure/views/view/taxonomy_term/ set path to '/taxonomy/term/%'
 
+### Add a taxonomy list view
+
+Add a new view with "Rest export" display
+- set path to '/taxonomy/list/%'
+- filter on argument
+
+### Rest UI
+
 Check the configuration on http://drupal.d8/admin/config/services/rest
+
+### Permissions
 
 Check the permissions on http://drupal.d8/admin/people/permissions for 'RESTful Web Services' permissions.
