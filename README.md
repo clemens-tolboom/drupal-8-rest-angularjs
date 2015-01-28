@@ -30,7 +30,11 @@ $ ln -s /path/to/drupal-8-rest-angularjs/app .
 
 Install and enable https://www.drupal.org/project/restui
 
-Edit view http://drupal.d8/admin/structure/views/view/frontpage and add a 'Rest export' display with path '/node'
+### Views need rest displays
+
+Add a "Rest export" display to view
+- http://drupal.d8/admin/structure/views/view/frontpage set path to '/node'
+- http://drupal.d8/admin/structure/views/view/taxonomy_term/ set path to '/taxonomy/term/%'
 
 Check the configuration on http://drupal.d8/admin/config/services/rest
 
