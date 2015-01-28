@@ -18,6 +18,7 @@ angular.module('myApp.node', ['ngRoute', 'drupalService'])
             ]
         }
 
+        // Bind tags globally to be usable to print next to each node.
         $scope.tags = {};
 
         $scope.nodes = Node.query({}, function (nodes) {
