@@ -16,7 +16,7 @@ angular.module('myApp.node', ['ngRoute', 'drupalService'])
                     value: "Anonymous"
                 }
             ]
-        }
+        };
 
         // Bind tags globally to be usable to print next to each node.
         $scope.tags = {};
