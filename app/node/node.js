@@ -20,6 +20,16 @@ angular.module('myApp.node', ['ngRoute', 'drupalService'])
 
         // Bind tags globally to be usable to print next to each node.
         $scope.tags = {};
+        $scope.breadcrumb = [
+            {
+                path: '',
+                title: 'Home'
+            }, {
+                path: '#node',
+                title: 'Node'
+            }
+        ];
+
 
         $scope.nodes = Node.query({}, function (nodes) {
             for (var i = 0; i < $scope.nodes.length; i++) {

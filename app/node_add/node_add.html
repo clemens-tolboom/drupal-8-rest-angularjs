@@ -10,6 +10,12 @@
         </aside>
     </div>
     <div class="col-md-9">
+        <ul>
+            <li ng-repeat="crumb in breadcrumb">
+                <a href="/app/{{ crumb.path }}">{{ crumb.title }}</a>
+            </li>
+        </ul>
+
         <article>
             <h1>New article {{ node.title }}</h1>
             <form ng-submit="postNode()">

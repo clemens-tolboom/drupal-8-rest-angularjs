@@ -37,6 +37,20 @@ angular.module('myApp.node_nid', ['ngRoute', 'drupalService'])
             });
         });
 
+        $scope.breadcrumb = [
+            {
+                path: '',
+                title: 'Home'
+            }, {
+                path: '#node',
+                title: 'Node'
+            //}, {
+            //    path: '#node/'. $routeParams.nid,
+            //    title: 'Node'
+            }
+        ];
+
+
         // Fetch the comments for this node (Using a special view in Drupal)
         $scope.comments = Comment.query({
             nid: $routeParams.nid
