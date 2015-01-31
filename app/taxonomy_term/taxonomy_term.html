@@ -1,0 +1,40 @@
+<div class="row">
+    <div class="col-md-3">
+        <aside>
+            <header>Search</header>
+            <input type="search" class="form-control">
+        </aside>
+        <aside>
+            <header>Tools</header>
+            Menu
+        </aside>
+    </div>
+    <div class="col-md-9">
+        Howdy
+        <article ng-repeat="node in nodes">
+            <h2>
+                <a href="#/node/{{ node.nid[0].value }}">
+                    {{ node.title[0].value }}
+                </a>
+            </h2>
+
+            <div class="meta">
+                Submitted by {{ node.user.name[0].value }} on {{ node.created[0].value * 1000 | date:'medium' }}
+            </div>
+            <p>
+                {{ node.body[0].summary }}
+            </p>
+
+            <p>
+                Tags:<br>
+            <ul>
+                <li ng-repeat="tag in node.field_tags">
+                    <a href="#/taxonomy/term/{{ tag.target_id }}">
+                        {{ tabs[tag.target_id] }}
+                    </a>
+                </li>
+            </ul>
+            </p>
+        </article>
+    </div>
+</div>
