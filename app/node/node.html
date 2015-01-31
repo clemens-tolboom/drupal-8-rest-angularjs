@@ -37,8 +37,10 @@
 
             <p>
                 Tags:<br>
+                {{ tags }}
             <ul>
                 <li ng-repeat="tag in node.field_tags">
+                    {{ tag }}
                     <a href="#/taxonomy/term/{{ tag.target_id }}">
                         {{ tags[tag.target_id] }}
                     </a>
