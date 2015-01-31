@@ -1,0 +1,23 @@
+{
+  "name": "Drupal 8 Rest Angular",
+  "main": "app.js",
+  "version": "0.0.0",
+  "homepage": "https://github.com/build2be/drupal-8-rest-angularjs",
+  "authors": [
+    "Clemens Tolboom <clemens@build2be.com>"
+  ],
+  "description": "Mimic Drupal 8 Garland",
+  "keywords": [
+    "Drupal",
+    "Angular"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/bower_components",
+    "test",
+    "tests"
+  ]
+}

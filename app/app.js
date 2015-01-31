@@ -6,7 +6,8 @@ angular.module('myApp', [
     'drupalService',
     'myApp.node_add',
     'myApp.node_nid',
-    'myApp.node'
+    'myApp.node',
+    'myApp.taxonomy_term'
 ]).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.otherwise({redirectTo: '/node'});

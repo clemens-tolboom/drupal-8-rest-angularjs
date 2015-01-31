@@ -10,23 +10,13 @@
         </aside>
     </div>
     <div class="col-md-9">
-        <ul>
-            <li ng-repeat="crumb in breadcrumb">
-                <a href="/app/{{ crumb.path }}">{{ crumb.title }}</a>
-            </li>
-        </ul>
+        Howdy
         <article ng-repeat="node in nodes">
             <h2>
                 <a href="#/node/{{ node.nid[0].value }}">
                     {{ node.title[0].value }}
                 </a>
             </h2>
-
-            <form ng-submit="deleteNode(node.nid)">
-                <div class="form-group">
-                    <input type="submit" class="btn btn-default" value="Delete node">
-                </div>
-            </form>
 
             <div class="meta">
                 Submitted by {{ node.user.name[0].value }} on {{ node.created[0].value * 1000 | date:'medium' }}
@@ -40,7 +30,7 @@
             <ul>
                 <li ng-repeat="tag in node.field_tags">
                     <a href="#/taxonomy/term/{{ tag.target_id }}">
-                        {{ tags[tag.target_id] }}
+                        {{ tabs[tag.target_id] }}
                     </a>
                 </li>
             </ul>

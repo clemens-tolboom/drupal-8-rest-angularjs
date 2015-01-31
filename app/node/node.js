@@ -16,10 +16,26 @@ angular.module('myApp.node', ['ngRoute', 'drupalService'])
                     value: "Anonymous"
                 }
             ]
-        }
+        };
 
         // Bind tags globally to be usable to print next to each node.
         $scope.tags = {};
+        $scope.breadcrumb = [
+            {
+                path: '',
+                title: 'Home'
+            }, {
+                path: '#node',
+                title: 'Node'
+            }
+        ];
+
+        $scope.deleteNode = function (nid) {
+            Node.delete({nid: nid[0].value}, $scope.newComment, function (response) {
+                // Comment posted, refresh the comment list
+                $scope.nodes = Node.query({});
+            });
+        };
 
         $scope.nodes = Node.query({}, function (nodes) {
             for (var i = 0; i < $scope.nodes.length; i++) {

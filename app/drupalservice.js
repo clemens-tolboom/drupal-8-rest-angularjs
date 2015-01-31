@@ -15,7 +15,7 @@ angular.module('drupalService', ['ngResource'])
     }])
 
     .factory('NodeByTerm', ['$resource', function ($resource) {
-      return $resource('/taxonomy/term/:tid', {tid: '@tid'}, {});
+        return $resource('/taxonomy/term/:tid', {tid: '@tid'}, {});
     }])
 
     .factory('TaxonomyTerm', ['$resource', function ($resource) {
@@ -33,4 +33,4 @@ angular.module('drupalService', ['ngResource'])
                 url: '/entity/comment'
             }
         });
-    }])
+    }]);
