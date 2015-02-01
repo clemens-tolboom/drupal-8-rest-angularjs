@@ -18,12 +18,12 @@
 </head>
 <body>
 <header>
-Switch back to <a href="/">Drupal front end</a>.
+    Switch to <a href="/">Drupal front end</a>.
 </header>
-<div class="container">
-    <div ng-view></div>
-</div>
-
+    <div class="container">
+        <div ng-view></div>
+    </div>
+    Test <a href="#node-lifecycle">Node Life Cycle</a>
 <footer>
 
 </footer>
@@ -32,9 +32,22 @@ Switch back to <a href="/">Drupal front end</a>.
 <script src="bower_components/angular-resource/angular-resource.js"></script>
 <script src="drupalservice.js"></script>
 <script src="app.js"></script>
+<script src="node_lifecycle/node_lifecycle.js"></script>
 <script src="node/node.js"></script>
 <script src="node_nid/node_nid.js"></script>
 <script src="node_add/node_add.js"></script>
 <script src="taxonomy_term/taxonomy_term.js"></script>
+
+<script type='text/ng-template' id="side-bar-first">
+    <aside>
+        <header>Search</header>
+        <input type="search" class="form-control">
+    </aside>
+    <aside>
+        <header>Tools</header>
+        Menu
+    </aside>
+</script>
+
 </body>
 </html>
