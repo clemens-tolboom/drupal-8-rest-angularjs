@@ -1,15 +1,14 @@
 <div class="row">
     <div class="col-md-3">
-        <aside>
-            <header>Search</header>
-            <input type="search" class="form-control">
-        </aside>
-        <aside>
-            <header>Tools</header>
-            Menu
-        </aside>
+        <ng-include src="'side-bar-first'"></ng-include>
     </div>
     <div class="col-md-9">
+        <ul>
+            <li ng-repeat="crumb in breadcrumb">
+                <a href="/app/{{ crumb.path }}">{{ crumb.title }}</a>
+            </li>
+        </ul>
+
         <article>
             <h1>{{ node.title[0].value }}</h1>
 
@@ -57,5 +56,9 @@
                 By {{ comment.name }} on {{ comment.created }}
             </div>
         </div>
+
+        {{ response }}
+
+        {{ error }}
     </div>
 </div>

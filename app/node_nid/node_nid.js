@@ -37,8 +37,24 @@ angular.module('myApp.node_nid', ['ngRoute', 'drupalService'])
             });
         });
 
+        $scope.breadcrumb = [
+            {
+                path: '',
+                title: 'Home'
+            }, {
+                path: '#node',
+                title: 'Node'
+            //}, {
+            //    path: '#node/'. $routeParams.nid,
+            //    title: 'Node'
+            }
+        ];
+
+
         // Fetch the comments for this node (Using a special view in Drupal)
-        $scope.comments = Comment.query({nid: $routeParams.nid});
+        $scope.comments = Comment.query({
+            nid: $routeParams.nid
+        });
 
         $scope.postComment = function () {
             // Post new comment to this node. $scope.newComment contains the http payload
@@ -49,5 +65,6 @@ angular.module('myApp.node_nid', ['ngRoute', 'drupalService'])
                 // Comment posted, refresh the comment list
                 $scope.comments = Comment.query({nid: $routeParams.nid});
             });
-        }
+        };
+
     });
