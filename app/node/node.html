@@ -15,12 +15,6 @@
                 </a>
             </h2>
 
-            <form ng-submit="deleteNode(node.nid)">
-                <div class="form-group">
-                    <input type="submit" class="btn btn-default" value="Delete node">
-                </div>
-            </form>
-
             <div class="meta">
                 Submitted by {{ node.user.name[0].value }} on {{ node.created[0].value * 1000 | date:'medium' }}
             </div>

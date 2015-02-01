@@ -53,12 +53,11 @@ angular.module('drupalService', ['ngResource'])
                 method: 'POST',
                 url: '/entity/node',
                 transformRequest: function (data, headersGetter) {
-                    console.log(data);
                     headersGetter()['Content-Type'] = 'application/hal+json';
                     return angular.toJson(data);
                 },
                 transformResponse: function (data, headersGetter) {
-                    console.log(data);
+                    console.log("transformResponse", data);
                 }
             }
         });
