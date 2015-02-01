@@ -3,11 +3,6 @@
         <ng-include src="'side-bar-first'"></ng-include>
     </div>
     <div class="col-md-9">
-        <ul>
-            <li ng-repeat="crumb in breadcrumb">
-                <a href="/app/{{ crumb.path }}">{{ crumb.title }}</a>
-            </li>
-        </ul>
         <article ng-repeat="node in nodes">
             <h2>
                 <a href="#/node/{{ node.nid[0].value }}">

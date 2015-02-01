@@ -38,6 +38,14 @@
 <script src="node_add/node_add.js"></script>
 <script src="taxonomy_term/taxonomy_term.js"></script>
 
+<script type='text/ng-template' id="breadcrumb">
+    <ul>
+        <li ng-repeat="crumb in breadcrumb">
+            <a href="/app/{{ crumb.path }}">{{ crumb.title }}</a>
+        </li>
+    </ul>
+</script>
+
 <script type='text/ng-template' id="side-bar-first">
     <aside>
         <header>Search</header>
