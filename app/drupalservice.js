@@ -2,23 +2,60 @@ angular.module('drupalService', ['ngResource'])
 
     .factory('Node', ['$resource', function ($resource) {
         return $resource('/node/:nid', {nid: '@nid'}, {
+
             query: {
                 method: 'GET',
                 url: '/node',
                 isArray: true,
                 transformRequest: function (data, headersGetter) {
-                    // TODO: do we really want HAL?
-                    // headersGetter()['Accept'] = 'application/hal+json';
+                    headersGetter()['Accept'] = 'application/hal+json';
+                    return angular.toJson(data);
+                },
+                transformResponse: function (data, headersGetter) {
+                    var json = angular.fromJson(data);
+                    for(var i=0 ; i< json.length; i++) {
+                        var node = json[i];
+                        var nid = node._links.self.href.split(/\//).pop();
+                        node.nid = [{value: nid, _drupal : 'https://www.drupal.org/node/2304849' }];
+                    }
+                    // Inject the nid
+                    return json;
                 }
             },
-            // We post to HAL
+            fetch: {
+                method: 'GET',
+                url: '/node/:nid',
+                transformRequest: function (data, headersGetter) {
+                    headersGetter()['Accept'] = 'application/hal+json';
+                    return angular.toJson(data);
+                },
+                transformResponse: function (data, headersGetter) {
+                    var node = angular.fromJson(data);
+                    // Inject the nid
+                    var nid = node._links.self.href.split(/\//).pop();
+                    node.nid = [{value: nid, _drupal : 'https://www.drupal.org/node/2304849' }];
+                    return node;
+                }
+
+            },
+
+            patch: {
+                method: 'PATCH',
+                url: '/node/:nid',
+                transformRequest: function (data, headersGetter) {
+                    console.log("transformRequest", data);
+                    headersGetter()['Content-Type'] = 'application/hal+json';
+                    return angular.toJson(data);
+                }
+            },
+
             create: {
                 method: 'POST',
                 url: '/entity/node',
-                headers: {'Content-Type': 'application/hal+json'},
                 transformRequest: function (data, headersGetter) {
                     console.log(data);
                     headersGetter()['Content-Type'] = 'application/hal+json';
+                    return angular.toJson(data);
                 },
                 transformResponse: function (data, headersGetter) {
                     console.log(data);
@@ -48,6 +85,6 @@ angular.module('drupalService', ['ngResource'])
                     headersGetter()['Accept'] = 'application/hal+json';
                     headersGetter()['Content-Type'] = 'application/hal+json';
                 }
-            },
+            }
         });
     }]);
