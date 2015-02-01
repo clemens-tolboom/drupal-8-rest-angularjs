@@ -29,6 +29,17 @@ angular.module('myApp.node_nid', ['ngRoute', 'drupalService'])
                 $scope.node.user = User.get({uid: $scope.node.uid[0].target_id})
             }
 
+            $scope.breadcrumb = [
+                {
+                    path: '#node',
+                    title: 'Node'
+                //}, {
+                //    path: '#node/' + $scope.node.nid[0].value,
+                //    title: 'Node'
+                }
+            ];
+
+
             // Fetch the entity for every tag in this node.
             $scope.node.field_tags.forEach(function (element, index, array) {
                 if ($scope.tags[element.target_id] == undefined) {
@@ -36,19 +47,6 @@ angular.module('myApp.node_nid', ['ngRoute', 'drupalService'])
                 }
             });
         });
-
-        $scope.breadcrumb = [
-            {
-                path: '',
-                title: 'Home'
-            }, {
-                path: '#node',
-                title: 'Node'
-            //}, {
-            //    path: '#node/'. $routeParams.nid,
-            //    title: 'Node'
-            }
-        ];
 
 
         // Fetch the comments for this node (Using a special view in Drupal)

@@ -22,9 +22,6 @@ angular.module('myApp.node', ['ngRoute', 'drupalService'])
         $scope.tags = {};
         $scope.breadcrumb = [
             {
-                path: '',
-                title: 'Home'
-            }, {
                 path: '#node',
                 title: 'Node'
             }
