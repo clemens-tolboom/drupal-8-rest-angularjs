@@ -26,20 +26,20 @@ angular.module('myApp.node_lifecycle', ['ngRoute', 'drupalService'])
         $scope.nodes = Node.query({}, function (nodes) {
             for (var i = 0; i < $scope.nodes.length; i++) {
                 console.log($scope.nodes[i]);
-                if ($scope.nodes[i].uid[0].target_id == 0) {
+                if ($scope.nodes[i]._internals.uid[0].target_id == 0) {
                     $scope.nodes[i].user = anonymousUser;
                 } else {
-                    $scope.nodes[i].user = User.get({uid: $scope.nodes[i].uid[0].target_id})
+                    $scope.nodes[i].user = User.get({uid: $scope.nodes[i]._internals.uid[0].target_id})
                 }
             }
         });
 
         $scope.fetchNode = function () {
-            $scope.node = Node.fetch({nid: $scope.node.nid[0].value});
+            $scope.node = Node.fetch({nid: $scope.node._internals.nid[0].value});
         };
 
         $scope.updateNode = function () {
-            Node.patch({nid: $scope.node.nid[0].value}, $scope.node);
+            Node.patch({nid: $scope._internals.node.nid[0].value}, $scope.node);
         };
 
         $scope.deleteNode = function () {

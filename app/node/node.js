@@ -37,10 +37,10 @@ angular.module('myApp.node', ['ngRoute', 'drupalService'])
         $scope.nodes = Node.query({}, function (nodes) {
             for (var i = 0; i < $scope.nodes.length; i++) {
                 console.log($scope.nodes[i]);
-                if ($scope.nodes[i].uid[0].target_id == 0) {
+                if ($scope.nodes[i]._internals.uid[0].target_id == 0) {
                     $scope.nodes[i].user = anonymousUser;
                 } else {
-                    $scope.nodes[i].user = User.get({uid: $scope.nodes[i].uid[0].target_id})
+                    $scope.nodes[i].user = User.get({uid: $scope.nodes[i]._internals.uid[0].target_id})
                 }
 
                 $scope.nodes[i].field_tags.forEach(function (element, index, array) {

@@ -8,7 +8,7 @@
     <div class="col-md-9">
         <article ng-repeat="node in nodes">
             <h2>
-                <a href="#/node/{{ node.nid[0].value }}">
+                <a href="#/node/{{ node._internals.nid[0].value }}">
                     {{ node.title[0].value }}
                 </a>
             </h2>
@@ -24,7 +24,7 @@
                 Tags:<br>
                 {{ tags }}
             <ul>
-                <li ng-repeat="tag in node.field_tags">
+                <li ng-repeat="tag in node._internals.field_tags">
                     {{ tag }}
                     <a href="#/taxonomy/term/{{ tag.target_id }}">
                         {{ tags[tag.target_id] }}

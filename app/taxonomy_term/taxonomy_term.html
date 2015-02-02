@@ -21,7 +21,7 @@
             <p>
                 Tags:<br>
             <ul>
-                <li ng-repeat="tag in node.field_tags">
+                <li ng-repeat="tag in node._internals.field_tags">
                     <a href="#/taxonomy/term/{{ tag.target_id }}">
                         {{ tabs[tag.target_id] }}
                     </a>

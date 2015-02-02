@@ -13,12 +13,23 @@ angular.module('drupalService', ['ngResource'])
                 },
                 transformResponse: function (data, headersGetter) {
                     var json = angular.fromJson(data);
-                    for(var i=0 ; i< json.length; i++) {
+                    angular.forEach(function (node, index) {
                         var node = json[i];
+                        // TODO: DRY aka move 'internals' into function/factory
+                        var internals = node._internals = {};
+
+                        // Inject the nid (last element from href
                         var nid = node._links.self.href.split(/\//).pop();
-                        node.nid = [{value: nid, _drupal : 'https://www.drupal.org/node/2304849' }];
-                    }
-                    // Inject the nid
+                        internals.nid = [{value: nid, _drupal: 'https://www.drupal.org/node/2304849'}];
+
+                        // Transform _links into node fields
+                        angular.forEach(node._links, function (value, key) {
+                            if (key == 'self') return;
+                            if (key == 'type') return;
+                            var id = key.split(/\//).pop();
+                            internals[id] = value;
+                        });
+                    });
                     return json;
                 }
             },
@@ -31,9 +42,21 @@ angular.module('drupalService', ['ngResource'])
                 },
                 transformResponse: function (data, headersGetter) {
                     var node = angular.fromJson(data);
-                    // Inject the nid
+                    // TODO: DRY aka move 'internals' into function/factory
+                    var internals = node._internals = {};
+
+                    // Inject the nid (last element from href
                     var nid = node._links.self.href.split(/\//).pop();
-                    node.nid = [{value: nid, _drupal : 'https://www.drupal.org/node/2304849' }];
+                    internals.nid = [{value: nid, _drupal: 'https://www.drupal.org/node/2304849'}];
+
+                    // Transform _links into node fields
+                    angular.forEach(node._links, function (value, key) {
+                        if (key == 'self') return;
+                        if (key == 'type') return;
+                        var id = key.split(/\//).pop();
+                        internals[id] = value;
+                    });
+
                     return node;
                 }
 
