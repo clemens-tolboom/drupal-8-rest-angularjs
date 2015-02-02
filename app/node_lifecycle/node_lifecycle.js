@@ -15,11 +15,8 @@ angular.module('myApp.node_lifecycle', ['ngRoute', 'drupalService'])
                 path: '',
                 title: 'Home'
             }, {
-                path: '#node',
-                title: 'Node'
-            }, {
-                path: '#node/add',
-                title: 'Add'
+                path: '#node-lifecycle',
+                title: 'Node life cycle'
             }
         ];
 

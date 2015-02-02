@@ -18,7 +18,6 @@
 </head>
 <body>
 <header>
-    Switch to <a href="/">Drupal front end</a>.
 </header>
 <div class="container">
     <div ng-view></div>
@@ -46,6 +45,10 @@ Test <a href="#node-lifecycle">Node Life Cycle</a>
 </script>
 
 <script type='text/ng-template' id="side-bar-first">
+    <aside>
+        <header>Drupal Frontend</header>
+        Switch to <a href="/">Drupal</a>.
+    </aside>
     <aside>
         <header>Search</header>
         <input type="search" class="form-control" placeholder="TBD">
