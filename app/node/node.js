@@ -23,7 +23,7 @@ angular.module('myApp.node', ['ngRoute', 'drupalService'])
         $scope.breadcrumb = [
             {
                 path: '#node',
-                title: 'Node'
+                title: 'Home'
             }
         ];
 

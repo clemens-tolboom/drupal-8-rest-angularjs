@@ -32,10 +32,10 @@ angular.module('myApp.node_nid', ['ngRoute', 'drupalService'])
             $scope.breadcrumb = [
                 {
                     path: '#node',
-                    title: 'Node'
-                //}, {
-                //    path: '#node/' + $scope.node.nid[0].value,
-                //    title: 'Node'
+                    title: 'Home'
+                }, {
+                    path: '#node/1',
+                    title: $scope.node.title[0].value
                 }
             ];
 
