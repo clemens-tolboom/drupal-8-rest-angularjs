@@ -19,7 +19,7 @@ angular.module('myApp.node', ['ngRoute', 'drupalService'])
         };
 
         // Bind tags globally to be usable to print next to each node.
-        $scope.tags = {};
+        $scope.tags = TaxonomyTerm.query();
         $scope.breadcrumb = [
             {
                 path: '#node',
@@ -42,12 +42,6 @@ angular.module('myApp.node', ['ngRoute', 'drupalService'])
                 } else {
                     $scope.nodes[i].user = User.get({uid: $scope.nodes[i]._internals.uid[0].target_id})
                 }
-
-                $scope.nodes[i].field_tags.forEach(function (element, index, array) {
-                    if ($scope.tags[element.target_id] == undefined) {
-                        $scope.tags[element.target_id] = TaxonomyTerm.get({tid: element.target_id});
-                    }
-                });
             }
         });
     });
