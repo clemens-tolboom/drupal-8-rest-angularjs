@@ -39,7 +39,7 @@ angular.module('myApp.node_lifecycle', ['ngRoute', 'drupalService'])
         };
 
         $scope.updateNode = function () {
-            Node.patch({nid: $scope._internals.node.nid[0].value}, $scope.node);
+            Node.patch({nid: $scope.node._internals.nid[0].value}, $scope.node);
         };
 
         $scope.deleteNode = function () {
