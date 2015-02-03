@@ -76,6 +76,7 @@ angular.module('drupalService', ['ngResource'])
                 url: '/node/:nid',
                 transformRequest: function (data, headersGetter) {
                     console.log('transformRequest', data);
+                    delete data._internals;
                     headersGetter()['Content-Type'] = 'application/hal+json';
                     return angular.toJson(data);
                 }
@@ -85,6 +86,7 @@ angular.module('drupalService', ['ngResource'])
                 method: 'POST',
                 url: '/entity/node',
                 transformRequest: function (data, headersGetter) {
+                    delete data._internals;
                     headersGetter()['Content-Type'] = 'application/hal+json';
                     return angular.toJson(data);
                 },
