@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('drupalService', ['ngResource'])
 
     .factory('Node', ['$resource', function ($resource) {
@@ -8,13 +10,12 @@ angular.module('drupalService', ['ngResource'])
                 url: '/node',
                 isArray: true,
                 transformRequest: function (data, headersGetter) {
-                    headersGetter()['Accept'] = 'application/hal+json';
+                    headersGetter().Accept = 'application/hal+json';
                     return angular.toJson(data);
                 },
                 transformResponse: function (data, headersGetter) {
                     var json = angular.fromJson(data);
-                    angular.forEach(function (node, index) {
-                        var node = json[i];
+                    angular.forEach(json, function (node, index) {
                         // TODO: DRY aka move 'internals' into function/factory
                         var internals = node._internals = {};
 
@@ -24,8 +25,12 @@ angular.module('drupalService', ['ngResource'])
 
                         // Transform _links into node fields
                         angular.forEach(node._links, function (value, key) {
-                            if (key == 'self') return;
-                            if (key == 'type') return;
+                            if (key === 'self') {
+                              return;
+                            }
+                            if (key === 'type') {
+                              return;
+                            }
                             var id = key.split(/\//).pop();
                             internals[id] = value;
                         });
@@ -37,7 +42,7 @@ angular.module('drupalService', ['ngResource'])
                 method: 'GET',
                 url: '/node/:nid',
                 transformRequest: function (data, headersGetter) {
-                    headersGetter()['Accept'] = 'application/hal+json';
+                    headersGetter().Accept = 'application/hal+json';
                     return angular.toJson(data);
                 },
                 transformResponse: function (data, headersGetter) {
@@ -51,8 +56,12 @@ angular.module('drupalService', ['ngResource'])
 
                     // Transform _links into node fields
                     angular.forEach(node._links, function (value, key) {
-                        if (key == 'self') return;
-                        if (key == 'type') return;
+                        if (key === 'self') {
+                          return;
+                        }
+                        if (key === 'type') {
+                          return;
+                        }
                         var id = key.split(/\//).pop();
                         internals[id] = value;
                     });
@@ -66,7 +75,7 @@ angular.module('drupalService', ['ngResource'])
                 method: 'PATCH',
                 url: '/node/:nid',
                 transformRequest: function (data, headersGetter) {
-                    console.log("transformRequest", data);
+                    console.log('transformRequest', data);
                     headersGetter()['Content-Type'] = 'application/hal+json';
                     return angular.toJson(data);
                 }
@@ -80,7 +89,7 @@ angular.module('drupalService', ['ngResource'])
                     return angular.toJson(data);
                 },
                 transformResponse: function (data, headersGetter) {
-                    console.log("transformResponse", data);
+                    console.log('transformResponse', data);
                 }
             }
         });
@@ -104,7 +113,7 @@ angular.module('drupalService', ['ngResource'])
                 method: 'POST',
                 url: '/entity/comment',
                 transformRequest: function (data, headersGetter) {
-                    headersGetter()['Accept'] = 'application/hal+json';
+                    headersGetter().Accept = 'application/hal+json';
                     headersGetter()['Content-Type'] = 'application/hal+json';
                 }
             }
