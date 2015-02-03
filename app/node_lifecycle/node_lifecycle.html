@@ -1,11 +1,14 @@
 <div class="row">
+    <ng-include src="'breadcrumb'"></ng-include>
+</div>
+<div class="row">
     <div class="col-md-3">
         <ng-include src="'side-bar-first'"></ng-include>
     </div>
     <div class="col-md-9">
         <div>
             <ul ng-repeat="node in nodes">
-                <li>{{ node.nid[0].value}} {{node.title[0].value }}</li>
+                <li>{{ node._internals.nid[0].value}} {{node.title[0].value }}</li>
             </ul>
 
             <!--
@@ -16,13 +19,13 @@
             <form class="form-inline">
                 <div class="form-group">
                     <label>Node ID</label>
-                    <input type="text" class="form-control" ng-model="node.nid[0].value">
+                    <input type="text" class="form-control" ng-model="node._internals.nid[0].value">
                 </div>
                 <div class="form-group">
-                    <input type="button" class="btn btn-success" value="Fetch node" ng-click="fetchNode($scope.nid);">
+                    <input type="button" class="btn btn-success" value="Fetch node" ng-click="fetchNode($scope.node._internals.nid[0].value);">
                 </div>
                 <div class="form-group">
-                    <input type="button" class="btn btn-danger" value="Delete node" ng-click="deleteNode($scope.nid);">
+                    <input type="button" class="btn btn-danger" value="Delete node" ng-click="deleteNode($scope.node._internals.nid[0].value);">
                 </div>
             </form>
             <form>

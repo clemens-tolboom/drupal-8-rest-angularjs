@@ -21,34 +21,30 @@ angular.module('myApp.node_nid', ['ngRoute', 'drupalService'])
         $scope.tags = {};
         // Fetch node entity for current nid
         $scope.node = Node.get({nid: $routeParams.nid}, function (node) {
+            $scope.breadcrumb = [
+                {
+                    path: '#node',
+                    title: 'Home'
+                }, {
+                    path: '#node/1',
+                    title: $scope.node.title[0].value
+                }
+            ];
 
             // If the node isn't anonymous then fetch the user entity
-            if ($scope.node.uid[0].target_id == 0) {
+            if ($scope.node._internals.uid[0].target_id == 0) {
                 $scope.node.user = anonymousUser;
             } else {
                 $scope.node.user = User.get({uid: $scope.node.uid[0].target_id})
             }
 
             // Fetch the entity for every tag in this node.
-            $scope.node.field_tags.forEach(function (element, index, array) {
+            $scope.node._internals.field_tags.forEach(function (element, index, array) {
                 if ($scope.tags[element.target_id] == undefined) {
                     $scope.tags[element.target_id] = TaxonomyTerm.query({tid: element.target_id});
                 }
             });
         });
-
-        $scope.breadcrumb = [
-            {
-                path: '',
-                title: 'Home'
-            }, {
-                path: '#node',
-                title: 'Node'
-            //}, {
-            //    path: '#node/'. $routeParams.nid,
-            //    title: 'Node'
-            }
-        ];
 
 
         // Fetch the comments for this node (Using a special view in Drupal)

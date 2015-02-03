@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('drupalService', ['ngResource'])
 
     .factory('Node', ['$resource', function ($resource) {
@@ -8,17 +10,31 @@ angular.module('drupalService', ['ngResource'])
                 url: '/node',
                 isArray: true,
                 transformRequest: function (data, headersGetter) {
-                    headersGetter()['Accept'] = 'application/hal+json';
+                    headersGetter().Accept = 'application/hal+json';
                     return angular.toJson(data);
                 },
                 transformResponse: function (data, headersGetter) {
                     var json = angular.fromJson(data);
-                    for(var i=0 ; i< json.length; i++) {
-                        var node = json[i];
+                    angular.forEach(json, function (node, index) {
+                        // TODO: DRY aka move 'internals' into function/factory
+                        var internals = node._internals = {};
+
+                        // Inject the nid (last element from href
                         var nid = node._links.self.href.split(/\//).pop();
-                        node.nid = [{value: nid, _drupal : 'https://www.drupal.org/node/2304849' }];
-                    }
-                    // Inject the nid
+                        internals.nid = [{value: nid, _drupal: 'https://www.drupal.org/node/2304849'}];
+
+                        // Transform _links into node fields
+                        angular.forEach(node._links, function (value, key) {
+                            if (key === 'self') {
+                              return;
+                            }
+                            if (key === 'type') {
+                              return;
+                            }
+                            var id = key.split(/\//).pop();
+                            internals[id] = value;
+                        });
+                    });
                     return json;
                 }
             },
@@ -26,14 +42,30 @@ angular.module('drupalService', ['ngResource'])
                 method: 'GET',
                 url: '/node/:nid',
                 transformRequest: function (data, headersGetter) {
-                    headersGetter()['Accept'] = 'application/hal+json';
+                    headersGetter().Accept = 'application/hal+json';
                     return angular.toJson(data);
                 },
                 transformResponse: function (data, headersGetter) {
                     var node = angular.fromJson(data);
-                    // Inject the nid
+                    // TODO: DRY aka move 'internals' into function/factory
+                    var internals = node._internals = {};
+
+                    // Inject the nid (last element from href
                     var nid = node._links.self.href.split(/\//).pop();
-                    node.nid = [{value: nid, _drupal : 'https://www.drupal.org/node/2304849' }];
+                    internals.nid = [{value: nid, _drupal: 'https://www.drupal.org/node/2304849'}];
+
+                    // Transform _links into node fields
+                    angular.forEach(node._links, function (value, key) {
+                        if (key === 'self') {
+                          return;
+                        }
+                        if (key === 'type') {
+                          return;
+                        }
+                        var id = key.split(/\//).pop();
+                        internals[id] = value;
+                    });
+
                     return node;
                 }
 
@@ -43,7 +75,7 @@ angular.module('drupalService', ['ngResource'])
                 method: 'PATCH',
                 url: '/node/:nid',
                 transformRequest: function (data, headersGetter) {
-                    console.log("transformRequest", data);
+                    console.log('transformRequest', data);
                     headersGetter()['Content-Type'] = 'application/hal+json';
                     return angular.toJson(data);
                 }
@@ -57,7 +89,7 @@ angular.module('drupalService', ['ngResource'])
                     return angular.toJson(data);
                 },
                 transformResponse: function (data, headersGetter) {
-                    console.log("transformResponse", data);
+                    console.log('transformResponse', data);
                 }
             }
         });
@@ -81,7 +113,7 @@ angular.module('drupalService', ['ngResource'])
                 method: 'POST',
                 url: '/entity/comment',
                 transformRequest: function (data, headersGetter) {
-                    headersGetter()['Accept'] = 'application/hal+json';
+                    headersGetter().Accept = 'application/hal+json';
                     headersGetter()['Content-Type'] = 'application/hal+json';
                 }
             }

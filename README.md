@@ -11,6 +11,7 @@ All dependencies are managed with npm and bower. To start clone this repository 
 ```bash
 $ npm install
 $ npm start
+  ...
   ^C
 ```
 
@@ -26,6 +27,8 @@ $ ln -s /path/to/drupal-8-rest-angularjs/app .
 
 ## Drupal configuration
 
+Current version only suppoert __hal+json__ so make sure all views and rest resources support these.
+
 ### Modules
 
 Install and enable https://www.drupal.org/project/restui
@@ -38,9 +41,10 @@ Add a "Rest export" display to view
 
 ### Add a taxonomy list view
 
+You may import the views from `/_drupal` directory
+
 Add a new view with "Rest export" display
-- set path to '/taxonomy/list/%'
-- filter on argument
+- set path to '/taxonomy/list'
 
 ### Rest UI
 
