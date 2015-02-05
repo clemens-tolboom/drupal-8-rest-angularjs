@@ -27,7 +27,7 @@ aside > header {
     line-height: 1.2;
 }
 
-.meta{
+.meta {
     font-size: 0.857em;
     color: #68696b;
 }
@@ -44,6 +44,10 @@ article {
     padding-bottom: 15px;
 }
 
-.comment h3{
+.comment h3 {
     font-size: 14pt;
+}
+
+a {
+    cursor: pointer;
 }

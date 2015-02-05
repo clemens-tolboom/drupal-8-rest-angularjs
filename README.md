@@ -29,27 +29,26 @@ $ ln -s /path/to/drupal-8-rest-angularjs/app .
 
 Current version only suppoert __hal+json__ so make sure all views and rest resources support these.
 
-### Modules
+## Modules
 
 Install and enable https://www.drupal.org/project/restui
 
-### Views need rest displays
+## Views need rest displays
 
 Add a "Rest export" display to view
 - http://drupal.d8/admin/structure/views/view/frontpage set path to '/node'
 - http://drupal.d8/admin/structure/views/view/taxonomy_term/ set path to '/taxonomy/term/%'
 
-### Add a taxonomy list view
+## Add a taxonomy list view
 
-You may import the views from `/_drupal` directory
+You need to import the view from `/_drupal` directory.
 
-Add a new view with "Rest export" display
-- set path to '/taxonomy/list'
+This view adds a "Rest export" display with path to '/taxonomy/list' to display the term name.
 
-### Rest UI
+## Rest UI
 
 Check the configuration on http://drupal.d8/admin/config/services/rest
 
-### Permissions
+## Permissions
 
 Check the permissions on http://drupal.d8/admin/people/permissions for 'RESTful Web Services' permissions.
