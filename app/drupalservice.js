@@ -88,6 +88,7 @@ angular.module('drupalService', ['ngResource'])
                 transformRequest: function (data, headersGetter) {
                     delete data._internals;
                     headersGetter()['Content-Type'] = 'application/hal+json';
+                    headersGetter()['Accept'] = 'application/json';
                     return angular.toJson(data);
                 },
                 transformResponse: function (data, headersGetter) {
