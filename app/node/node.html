@@ -22,7 +22,7 @@
 
             <p>
                 Tags:<br>
-            <ul>
+                <ul>
                 <li ng-repeat="tag in node._internals.field_tags | filter:filterByTag">
                     {{ tag }}
                     <a href="#/taxonomy/term/{{ tag.target_id }}">
