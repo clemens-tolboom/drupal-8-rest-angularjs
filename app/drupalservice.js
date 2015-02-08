@@ -32,7 +32,10 @@ angular.module('drupalService', ['ngResource'])
                               return;
                             }
                             var id = key.split(/\//).pop();
-                            internals[id] = value;
+                            internals[id] = [];
+                            angular.forEach(value, function (val, index) {
+                                internals[id].push({ target_id: val.href.split(/\//).pop()});
+                            });
                         });
                     });
                     return json;
@@ -63,7 +66,10 @@ angular.module('drupalService', ['ngResource'])
                           return;
                         }
                         var id = key.split(/\//).pop();
-                        internals[id] = value;
+                        internals[id] = [];
+                        angular.forEach(value, function (val, index) {
+                            internals[id].push({ target_id: val.href.split(/\//).pop()});
+                        });
                     });
 
                     return node;

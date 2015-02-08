@@ -39,11 +39,18 @@ Add a "Rest export" display to view
 - http://drupal.d8/admin/structure/views/view/frontpage set path to '/node'
 - http://drupal.d8/admin/structure/views/view/taxonomy_term/ set path to '/taxonomy/term/%'
 
-## Add a taxonomy list view
+## Import views
 
-You need to import the view from `/_drupal` directory.
+You need to import the views from `/app/_drupal` directory.
+
+### /taxonomy/list
 
 This view adds a "Rest export" display with path to '/taxonomy/list' to display the term name.
+
+### /node/%/comments
+
+This view adds a "Rest export" display with path to '/node/%/comments' to display the comments.
+
 
 ## Rest UI
 

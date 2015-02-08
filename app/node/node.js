@@ -27,14 +27,21 @@ angular.module('myApp.node', ['ngRoute', 'drupalService'])
             }
         ];
 
+        /**
+         * Get the term.name from $scope.tags
+         *
+         * This requires /taxonomy/list view installed.
+         *
+         * @param tag
+         * @returns {boolean}
+         */
         $scope.filterByTag = function (tag) {
             var found = false;
             angular.forEach($scope.tags, function (item, index) {
-                if (tag.href.split(/\//).pop() == item.tid) {
+                if (tag.target_id == item.tid) {
                     found = true;
                 }
             });
-            console.log(tag, found);
             return found;
         };
 
