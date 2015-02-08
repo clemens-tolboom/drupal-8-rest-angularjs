@@ -38,11 +38,10 @@ angular.module('myApp.node', ['ngRoute', 'drupalService'])
         $scope.filterByTag = function (tag) {
             var found = false;
             angular.forEach($scope.tags, function (item, index) {
-                if (tag.href.split(/\//).pop() == item.tid) {
+                if (tag.target_id == item.tid) {
                     found = true;
                 }
             });
-            console.log(tag, found);
             return found;
         };
 
