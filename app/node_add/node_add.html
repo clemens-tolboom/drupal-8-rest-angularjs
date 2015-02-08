@@ -6,29 +6,23 @@
         <ng-include src="'side-bar-first'"></ng-include>
     </div>
     <div class="col-md-9">
-        <ul>
-            <li ng-repeat="crumb in breadcrumb">
-                <a href="/app/{{ crumb.path }}">{{ crumb.title }}</a>
-            </li>
-        </ul>
-
         <article>
-            <h1>New article {{ node.title }}</h1>
+            <h1>New article {{ node.title[0].value }}</h1>
             <form ng-submit="postNode()">
                 <div class="form-group">
                     <label>Title</label>
-                    <input type="text" class="form-control" ng-model="node.title">
+                    <input type="text" class="form-control" ng-model="node.title[0].value">
                 </div>
                 <div class="form-group">
                     <label>Summary</label>
-                    <textarea class="form-control" ng-model="node.body.summary"></textarea>
+                    <textarea class="form-control" ng-model="node.body[0].summary"></textarea>
                 </div>
                 <div class="form-group">
                     <label>Body</label>
-                    <textarea class="form-control" ng-model="node.body.value"></textarea>
+                    <textarea class="form-control" ng-model="node.body[0].value"></textarea>
                 </div>
                 <div class="form-group">
-                    <input type="submit" class="btn btn-default" value="Post article">
+                    <input type="submit" class="btn btn-success" value="Post article">
                 </div>
             </form>
         </article>

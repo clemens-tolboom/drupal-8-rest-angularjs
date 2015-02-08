@@ -24,10 +24,26 @@ angular.module('myApp.node_add', ['ngRoute', 'drupalService'])
         ];
 
         $scope.node = {
-            title: "Title field",
-            body: {
-                summary: "Body Summary",
-                value: "Body full"
+            title: [
+                {
+                    value: "Title field"
+                }
+            ],
+            body: [
+                {
+                    summary: "Summary",
+                    value: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                }
+            ],
+            "_links": {
+                "http:\/\/drupal.d8\/rest\/relation\/node\/article\/uid": [
+                    {
+                        "href": "http:\/\/drupal.d8\/user\/1"
+                    }
+                ],
+                "type": {
+                    "href": "http:\/\/drupal.d8\/rest\/type\/node\/article"
+                }
             }
         };
 
@@ -50,7 +66,6 @@ angular.module('myApp.node_add', ['ngRoute', 'drupalService'])
                     }
                 }
             };
-            Node.create({}, node);
-//            Node.create({}, $scope.node);
+            Node.create({}, $scope.node);
         }
     });
