@@ -47,11 +47,13 @@
             </div>
         </form>
         <div class="comment" ng-repeat="comment in comments">
-            <h3>{{ comment.subject }}</h3>
+            <h3>{{ comment.subject[0].value }}</h3>
 
             <div class="meta">
-                By {{ comment.name }} on {{ comment.created }}
+                By {{ comment.name[0].value }} on {{ comment.created[0].value * 1000 | date:'medium' }}
+
             </div>
+            <p>{{ comment.comment_body[0].value }}</p>
         </div>
 
         {{ response }}
