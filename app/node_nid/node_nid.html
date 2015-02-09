@@ -29,7 +29,7 @@
         </article>
         <h2>Comments</h2>
 
-        <form ng-submit="postComment()">
+        <form>
             <div class="form-group">
                 <label>Name</label>
                 <input type="text" class="form-control" ng-model="newComment.name[0].value">
@@ -43,9 +43,10 @@
                 <textarea class="form-control" ng-model="newComment.comment_body[0].value"></textarea>
             </div>
             <div class="form-group">
-                <input type="submit" class="btn btn-default" value="Post comment">
+                <input type="button" class="btn btn-success" value="Post comment" ng-click="postComment();"/>
             </div>
         </form>
+        {{ comments }}
         <div class="comment" ng-repeat="comment in comments">
             <h3>{{ comment.subject[0].value }}</h3>
 
