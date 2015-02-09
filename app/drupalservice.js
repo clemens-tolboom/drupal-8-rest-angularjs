@@ -71,7 +71,6 @@ angular.module('drupalService', ['ngResource'])
                             internals[id].push({ target_id: val.href.split(/\//).pop()});
                         });
                     });
-
                     return node;
                 }
 
@@ -109,7 +108,7 @@ angular.module('drupalService', ['ngResource'])
     }])
 
     .factory('TaxonomyTerm', ['$resource', function ($resource) {
-        return $resource('/taxonomy/list/:tid', {tid: '@tid'}, {});
+        return $resource('/taxonomy/list', {}, {});
     }])
 
     .factory('User', ['$resource', function ($resource) {
@@ -122,8 +121,9 @@ angular.module('drupalService', ['ngResource'])
                 method: 'POST',
                 url: '/entity/comment',
                 transformRequest: function (data, headersGetter) {
-                    headersGetter().Accept = 'application/hal+json';
+                    headersGetter().Accept = 'application/json';
                     headersGetter()['Content-Type'] = 'application/hal+json';
+                    return angular.toJson(data);
                 }
             }
         });
