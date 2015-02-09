@@ -20,7 +20,7 @@ angular.module('myApp.node_nid', ['ngRoute', 'drupalService'])
 
         $scope.tags = {};
         // Fetch node entity for current nid
-        $scope.node = Node.get({nid: $routeParams.nid}, function (node) {
+        $scope.node = Node.fetch({nid: $routeParams.nid}, function (node) {
             $scope.breadcrumb = [
                 {
                     path: '#node',
