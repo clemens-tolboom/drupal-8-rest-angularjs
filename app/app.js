@@ -10,8 +10,18 @@ angular
         'myApp.node',
         'myApp.taxonomy_term',
         'myApp.node_lifecycle'
-    ]).
-    config(['$routeProvider', function ($routeProvider) {
+    ])
+    .constant({
+       'SERVER': {
+           // Use with default install
+           'URL' : ''
+           // Use with CORS configured server
+           //'URL': 'http://drupal.d8'
+           // TODO: fix for inline nid
+           //'URL': 'https://www.drupal.org/api-d7/node/1.json'
+       }
+    })
+    .config(['$routeProvider', function ($routeProvider) {
         $routeProvider.otherwise({redirectTo: '/node'});
     }])
     // http://stackoverflow.com/questions/17893708/angularjs-textarea-bind-to-json-object-shows-object-object

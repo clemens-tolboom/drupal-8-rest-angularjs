@@ -2,12 +2,12 @@
 
 angular.module('drupalService', ['ngResource'])
 
-    .factory('Node', ['$resource', function ($resource) {
+    .factory('Node', ['SERVER', '$resource', function (SERVER, $resource) {
         return $resource('/node/:nid', {nid: '@nid'}, {
 
             query: {
                 method: 'GET',
-                url: '/node',
+                url: SERVER.URL + '/node',
                 isArray: true,
                 transformRequest: function (data, headersGetter) {
                     headersGetter().Accept = 'application/hal+json';
@@ -43,7 +43,7 @@ angular.module('drupalService', ['ngResource'])
             },
             fetch: {
                 method: 'GET',
-                url: '/node/:nid',
+                url: SERVER.URL + '/node/:nid',
                 transformRequest: function (data, headersGetter) {
                     headersGetter().Accept = 'application/hal+json';
                     return angular.toJson(data);
@@ -79,7 +79,7 @@ angular.module('drupalService', ['ngResource'])
 
             patch: {
                 method: 'PATCH',
-                url: '/node/:nid',
+                url: SERVER.URL + '/node/:nid',
                 transformRequest: function (data, headersGetter) {
                     console.log('transformRequest', data);
                     delete data._internals;
@@ -90,7 +90,7 @@ angular.module('drupalService', ['ngResource'])
 
             create: {
                 method: 'POST',
-                url: '/entity/node',
+                url: SERVER.URL + '/entity/node',
                 transformRequest: function (data, headersGetter) {
                     delete data._internals;
                     headersGetter()['Content-Type'] = 'application/hal+json';
@@ -104,20 +104,20 @@ angular.module('drupalService', ['ngResource'])
         });
     }])
 
-    .factory('NodeByTerm', ['$resource', function ($resource) {
-        return $resource('/taxonomy/term/:tid', {tid: '@tid'}, {});
+    .factory('NodeByTerm', ['SERVER', '$resource', function (SERVER, $resource) {
+        return $resource(SERVER.URL + '/taxonomy/term/:tid', {tid: '@tid'}, {});
     }])
 
-    .factory('TaxonomyTerm', ['$resource', function ($resource) {
-        return $resource('/taxonomy/list/:tid', {tid: '@tid'}, {});
+    .factory('TaxonomyTerm', ['SERVER', '$resource', function (SERVER, $resource) {
+        return $resource(SERVER.URL + '/taxonomy/list/:tid', {tid: '@tid'}, {});
     }])
 
-    .factory('User', ['$resource', function ($resource) {
-        return $resource('/user/:uid', {uid: '@uid'}, {});
+    .factory('User', ['SERVER', '$resource', function (SERVER, $resource) {
+        return $resource(SERVER.URL + '/user/:uid', {uid: '@uid'}, {});
     }])
 
-    .factory('Comment', ['$resource', function ($resource) {
-        return $resource('/node/:nid/comments', {nid: '@nid'}, {
+    .factory('Comment', ['SERVER', '$resource', function (SERVER, $resource) {
+        return $resource(SERVER.URL + '/node/:nid/comments', {nid: '@nid'}, {
             'post': {
                 method: 'POST',
                 url: '/entity/comment',

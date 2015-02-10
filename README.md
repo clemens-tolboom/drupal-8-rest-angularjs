@@ -15,6 +15,8 @@ $ npm start
   ^C
 ```
 
+## Default installation
+
 Drupal 8 ReST doesn't support [CORS][cors] yet so the app directory should be hosted on the same hostname and port as the Drupal 8 instance running the ReST api. The easiest way is to copy or symlink the `app` directory from this repo to to root of your Drupal 8 installation.
 
 ```bash
@@ -23,7 +25,9 @@ $ cd /var/www/drupal
 $ ln -s /path/to/drupal-8-rest-angularjs/app .
 ```
 
-[cors]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS
+### Installing on a CORS configured server
+
+When having configured your web server of the .htaccess with core you should change the app.js config section.
 
 ## Drupal configuration
 
@@ -59,3 +63,5 @@ Check the configuration on http://drupal.d8/admin/config/services/rest
 ## Permissions
 
 Check the permissions on http://drupal.d8/admin/people/permissions for 'RESTful Web Services' permissions.
+
+[cors]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS
