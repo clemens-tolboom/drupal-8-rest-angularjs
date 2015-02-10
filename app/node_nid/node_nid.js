@@ -38,12 +38,15 @@ angular.module('myApp.node_nid', ['ngRoute', 'drupalService'])
                 $scope.node.user = User.get({uid: $scope.node.uid[0].target_id})
             }
 
-            // Fetch the entity for every tag in this node.
-            $scope.node._internals.field_tags.forEach(function (element, index, array) {
-                if ($scope.tags[element.target_id] == undefined) {
-                    $scope.tags[element.target_id] = TaxonomyTerm.query({tid: element.target_id});
-                }
-            });
+            // TODO: DRY alert
+            if ($scope.node._internals.field_tags) {
+                // Fetch the entity for every tag in this node.
+                $scope.node._internals.field_tags.forEach(function (element, index, array) {
+                    if ($scope.tags[element.target_id] == undefined) {
+                        $scope.tags[element.target_id] = TaxonomyTerm.query({tid: element.target_id});
+                    }
+                });
+            }
         });
 
 
