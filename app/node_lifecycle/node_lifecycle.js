@@ -10,6 +10,15 @@ angular.module('myApp.node_lifecycle', ['ngRoute', 'drupalService'])
     }])
 
     .controller('NodeLifeCycleCtrl', function ($scope, $routeParams, Node, User, TaxonomyTerm, Comment) {
+        // TODO: DRY alert
+        var anonymousUser = {
+            name: [
+                {
+                    value: "Anonymous"
+                }
+            ]
+        };
+
         $scope.breadcrumb = [
             {
                 path: '',
