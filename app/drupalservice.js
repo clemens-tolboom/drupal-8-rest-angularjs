@@ -1,7 +1,37 @@
 'use strict';
 
-angular.module('drupalService', ['ngResource'])
+var mod = angular.module('drupalService', ['ngResource']);
 
+mod.hal = {
+    fromServer: function (hal) {
+        var internals = hal._internals = {};
+
+        // Inject the nid (last element from href
+        var nid = hal._links.self.href.split(/\//).pop();
+        internals.nid = [{value: nid, _drupal: 'https://www.drupal.org/node/2304849'}];
+
+        // Transform _links into node fields
+        angular.forEach(hal._links, function (value, key) {
+            if (key === 'self') {
+                return;
+            }
+            if (key === 'type') {
+                return;
+            }
+            var id = key.split(/\//).pop();
+            internals[id] = [];
+            angular.forEach(value, function (val, index) {
+                internals[id].push({target_id: val.href.split(/\//).pop()});
+            });
+        });
+
+    },
+    toServer: function (hal) {
+        delete hal._internals;
+    }
+};
+
+mod
     .factory('Node', ['SERVER', '$resource', function (SERVER, $resource) {
         return $resource('/node/:nid', {nid: '@nid'}, {
 
@@ -16,27 +46,7 @@ angular.module('drupalService', ['ngResource'])
                 transformResponse: function (data, headersGetter) {
                     var json = angular.fromJson(data);
                     angular.forEach(json, function (node, index) {
-                        // TODO: DRY aka move 'internals' into function/factory
-                        var internals = node._internals = {};
-
-                        // Inject the nid (last element from href
-                        var nid = node._links.self.href.split(/\//).pop();
-                        internals.nid = [{value: nid, _drupal: 'https://www.drupal.org/node/2304849'}];
-
-                        // Transform _links into node fields
-                        angular.forEach(node._links, function (value, key) {
-                            if (key === 'self') {
-                              return;
-                            }
-                            if (key === 'type') {
-                              return;
-                            }
-                            var id = key.split(/\//).pop();
-                            internals[id] = [];
-                            angular.forEach(value, function (val, index) {
-                                internals[id].push({ target_id: val.href.split(/\//).pop()});
-                            });
-                        });
+                        mod.hal.fromServer(node);
                     });
                     return json;
                 }
@@ -50,28 +60,7 @@ angular.module('drupalService', ['ngResource'])
                 },
                 transformResponse: function (data, headersGetter) {
                     var node = angular.fromJson(data);
-                    // TODO: DRY aka move 'internals' into function/factory
-                    var internals = node._internals = {};
-
-                    // Inject the nid (last element from href
-                    var nid = node._links.self.href.split(/\//).pop();
-                    internals.nid = [{value: nid, _drupal: 'https://www.drupal.org/node/2304849'}];
-
-                    // Transform _links into node fields
-                    angular.forEach(node._links, function (value, key) {
-                        if (key === 'self') {
-                          return;
-                        }
-                        if (key === 'type') {
-                          return;
-                        }
-                        var id = key.split(/\//).pop();
-                        internals[id] = [];
-                        angular.forEach(value, function (val, index) {
-                            internals[id].push({ target_id: val.href.split(/\//).pop()});
-                        });
-                    });
-
+                    mod.hal.fromServer(node);
                     return node;
                 }
 
@@ -82,7 +71,7 @@ angular.module('drupalService', ['ngResource'])
                 url: SERVER.URL + '/node/:nid',
                 transformRequest: function (data, headersGetter) {
                     console.log('transformRequest', data);
-                    delete data._internals;
+                    mod.hal.toServer(data);
                     headersGetter()['Content-Type'] = 'application/hal+json';
                     return angular.toJson(data);
                 }
@@ -92,7 +81,7 @@ angular.module('drupalService', ['ngResource'])
                 method: 'POST',
                 url: SERVER.URL + '/entity/node',
                 transformRequest: function (data, headersGetter) {
-                    delete data._internals;
+                    mod.hal.toServer(data);
                     headersGetter()['Content-Type'] = 'application/hal+json';
                     headersGetter()['Accept'] = 'application/json';
                     return angular.toJson(data);
