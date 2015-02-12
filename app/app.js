@@ -13,14 +13,14 @@ angular
         'myApp.node_lifecycle'
     ])
     .constant({
-       'SERVER': {
-           // Use with default install
-           'URL' : ''
-           // Use with CORS configured server
-           //'URL': 'http://drupal.d8'
-           // TODO: fix for inline nid
-           //'URL': 'https://www.drupal.org/api-d7/node/1.json'
-       }
+        'SERVER': {
+            // Use with default install
+            'URL': ''
+            // Use with CORS configured server
+            //'URL': 'http://drupal.d8'
+            // TODO: fix for inline nid
+            //'URL': 'https://www.drupal.org/api-d7/node/1.json'
+        }
     })
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider.otherwise({redirectTo: '/node'});
@@ -46,4 +46,5 @@ angular
                 }, true);
             }
         };
-    });
+    })
+;
