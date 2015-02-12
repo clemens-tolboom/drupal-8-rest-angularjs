@@ -9,7 +9,7 @@ angular.module('myApp.node', ['ngRoute', 'drupalService'])
         });
     }])
 
-    .controller('NodeCtrl', function ($scope, $http, Node, User, TaxonomyTerm) {
+    .controller('NodeCtrl', function ($scope, $http, Node, User, TaxonomyTerm, DrupalState) {
         var anonymousUser = {
             name: [
                 {
@@ -26,6 +26,7 @@ angular.module('myApp.node', ['ngRoute', 'drupalService'])
                 title: 'Home'
             }
         ];
+        $scope.user = DrupalState.get('user');
 
         /**
          * Get the term.name from $scope.tags

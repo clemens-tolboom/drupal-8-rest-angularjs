@@ -4,6 +4,7 @@
 angular
     .module('myApp', [
         'ngRoute',
+        'CacheService',
         'drupalService',
         'myApp.node_add',
         'myApp.node_nid',

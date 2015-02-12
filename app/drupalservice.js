@@ -116,4 +116,29 @@ mod
                 }
             }
         });
-    }]);
+    }])
+
+    .factory('DrupalState', function (CacheService) {
+        var cache =       {
+            get: function (key) {
+                var item = CacheService.get(key);
+
+                if (item) {
+                    return item;
+                }
+
+                return null;
+            },
+            set: function (key, value) {
+                CacheService.put(key, value);
+            },
+            clear: function (key) {
+                CacheService.put(key, '');
+            }
+        };
+        cache.set('user', {username: null, password: null, authenticated: false});
+        cache.set('X-CSRF-Token', null);
+
+        return cache;
+    })
+;
