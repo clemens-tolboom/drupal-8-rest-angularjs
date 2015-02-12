@@ -64,6 +64,8 @@ Test <a href="#node-lifecycle">Node Life Cycle</a>
             <li><a href="#node/add">Add article</a></li>
         </ul>
     </aside>
+    <ng-include ng-if="user && !user.authenticated" src="'login-block'"></ng-include>
+
     <ng-include src="'about'"></ng-include>
 </script>
 
@@ -80,6 +82,33 @@ Test <a href="#node-lifecycle">Node Life Cycle</a>
     </aside>
 
 </script>
+
+<script type='text/ng-template' id="login-block">
+    <aside>
+        <header>User login</header>
+        <form>
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" required="required" class="form-control" ng-model="user.username">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" required="required" class="form-control" ng-model="scope.user.password">
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-success" value="Login article">
+            </div>
+        </form>
+        <div class="item-list">
+            <ul>
+                <li><a href="/user/register" title="Create a new user account." class="create-account-link">Create new
+                    account</a></li>
+                <li><a href="/user/password" title="Send password reset instructions via e-mail."
+                       class="request-password-link">Reset your password</a></li>
+            </ul>
+        </div>
+        </div>
+    </aside>
 
 </script>
 
