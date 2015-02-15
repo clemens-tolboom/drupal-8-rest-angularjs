@@ -38,6 +38,11 @@ Test <a href="#node-lifecycle">Node Life Cycle</a>
 <script src="node_add/node_add.js"></script>
 <script src="taxonomy_term/taxonomy_term.js"></script>
 
+<script type='text/ng-template' id="dog-ear-ref">
+    <div ng-if="issues" class="dog-ear" ng-click="issues.visible = !issues.visible">
+        <span class="glyphicon glyphicon-bookmark" title="Issues"></span>
+    </div>
+</script>
 
 <script type='text/ng-template' id="breadcrumb">
     <ul class="breadcrumb">
@@ -47,18 +52,11 @@ Test <a href="#node-lifecycle">Node Life Cycle</a>
 
 <script type='text/ng-template' id="side-bar-first">
     <aside>
-        <header>Drupal Frontend</header>
-        <ul>
-            <li>Switch to <a href="/">Drupal</a>.</li>
-            <li>Test <a href="#node-lifecycle">Node life cycle</a>.</li>
-        </ul>
-
-    </aside>
-    <aside>
         <header>Search</header>
         <input type="search" class="form-control" placeholder="To Be Defined">
     </aside>
     <aside>
+        <ng-include src="'dog-ear-ref'"></ng-include>
         <header>Tools</header>
         <ul>
             <li><a href="#node/add">Add article</a></li>
@@ -71,12 +69,15 @@ Test <a href="#node-lifecycle">Node Life Cycle</a>
 
 <script type='text/ng-template' id="about">
     <aside>
-        <header>About Drupal</header>
-        Menus are not working. Menus are <a href="https://www.drupal.org/node/2300677">config entity not exposed</a>
-        yet.
-        Menu links are not accessible either.
+        <ng-include src="'dog-ear-ref'"></ng-include>
+        <header>About APP</header>
+        <ul>
+            <li>Switch to <a href="/">Drupal</a>.</li>
+            <li>Test <a href="#node-lifecycle">Node life cycle</a>.</li>
+        </ul>
     </aside>
     <aside>
+        <ng-include src="'dog-ear-ref'"></ng-include>
         <header>json versus hal+json</header>
         Posting and Patching is currently not possible using json so we use hal+json.
     </aside>
@@ -85,7 +86,8 @@ Test <a href="#node-lifecycle">Node Life Cycle</a>
 
 <!-- Add info about current issues for current item -->
 <script type='text/ng-template' id="dog-ear">
-    <div class="dog-ear" ng-click="issues.visible = !issues.visible" ng-class="{'dog-down': issues.visible, 'dog-up': !issues.visible}">
+    <div class="dog-ear" ng-click="issues.visible = !issues.visible"
+         ng-class="{'dog-down': issues.visible, 'dog-up': !issues.visible}">
         <span class="glyphicon glyphicon-bookmark" title="Issues"></span>
 
         <div class="dog-ears">
