@@ -32,7 +32,7 @@ mod.hal = {
 };
 
 mod
-    .factory('Node', ['SERVER', '$resource', function (SERVER, $resource) {
+    .factory('Node', ['SERVER', '$resource', 'DrupalState', function (SERVER, $resource, DrupalState) {
         return $resource('/node/:nid', {nid: '@nid'}, {
 
             query: {
@@ -84,6 +84,11 @@ mod
                     mod.hal.toServer(data);
                     headersGetter()['Content-Type'] = 'application/hal+json';
                     headersGetter()['Accept'] = 'application/json';
+                    var user = DrupalState.get('user');
+                    console.log(user);
+                    if (user.token) {
+                        headersGetter()['X-CSRF-Token'] = user.token;
+                    }
                     return angular.toJson(data);
                 },
                 transformResponse: function (data, headersGetter) {
@@ -98,7 +103,23 @@ mod
     }])
 
     .factory('TaxonomyTerm', ['SERVER', '$resource', function (SERVER, $resource) {
-        return $resource(SERVER.URL + '/taxonomy/list/:tid', {tid: '@tid'}, {});
+        return $resource(SERVER.URL + '/taxonomy/list/:tid', {tid: '@tid'}, {
+            'fetch' : {
+                method: 'GET',
+                //transformRequest: function (data, headersGetter) {
+                //    headersGetter().Accept = 'application/hal+json';
+                //    headersGetter()['Content-Type'] = 'application/hal+json';
+                //}
+                transformResponse: function (data, headersGetter) {
+                    var json = angular.fromJson(data);
+                    var hash = {};
+                    angular.forEach(json, function(item){
+                        hash[item.tid] = item;
+                    });
+                    return hash;
+                }
+            }
+        });
     }])
 
     .factory('User', ['SERVER', '$resource', function (SERVER, $resource) {
@@ -118,8 +139,19 @@ mod
         });
     }])
 
+    .factory('Token', ['SERVER', '$resource', function (SERVER, $resource) {
+        return $resource(SERVER.URL + '/rest/session/token', {}, {
+            fetch: {
+                method: 'GET',
+                transformResponse: function (data, headersGetter) {
+                    return {token: data};
+                }
+            }
+        })
+    }])
+
     .factory('DrupalState', function (CacheService) {
-        var cache =       {
+        var cache = {
             get: function (key) {
                 var item = CacheService.get(key);
 

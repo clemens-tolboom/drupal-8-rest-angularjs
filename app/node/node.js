@@ -9,7 +9,7 @@ angular.module('myApp.node', ['ngRoute', 'drupalService'])
         });
     }])
 
-    .controller('NodeCtrl', function ($scope, $http, Node, User, TaxonomyTerm, DrupalState) {
+    .controller('NodeCtrl', function ($scope, ISSUES, $http, Node, User, TaxonomyTerm, DrupalState, Token) {
         var anonymousUser = {
             name: [
                 {
@@ -18,15 +18,32 @@ angular.module('myApp.node', ['ngRoute', 'drupalService'])
             ]
         };
 
+        $scope.issues = {
+            'title': 'Front page',
+            'items': [
+                ISSUES.site.nameSloganLogo,
+                ISSUES.views.noPager,
+                ISSUES.user.login,
+                ISSUES.taxonomy.termList,
+                ISSUES.taxonomy.termNotDisplayed
+            ]
+        };
+
         // Bind tags globally to be usable to print next to each node.
-        $scope.tags = TaxonomyTerm.query();
+        $scope.tags = TaxonomyTerm.fetch();
         $scope.breadcrumb = [
             {
                 path: '#node',
                 title: 'Home'
             }
         ];
+
         $scope.user = DrupalState.get('user');
+        if (!$scope.user.token) {
+            Token.fetch({}, function (item) {
+                $scope.user.token = item.token;
+            });
+        }
 
         /**
          * Get the term.name from $scope.tags
