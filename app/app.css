@@ -51,3 +51,25 @@ article {
 a {
     cursor: pointer;
 }
+
+.dog-ear {
+    padding: 12px;
+}
+
+.dog-ear.dog-down {
+    background-color: #eee;
+}
+
+.dog-ear.dog-up {
+    float: right;
+}
+
+.dog-ear > span {
+    color: red;
+    float: right;
+}
+
+.dog-ear.dog-up .dog-ears {
+    display: none;
+}
+
