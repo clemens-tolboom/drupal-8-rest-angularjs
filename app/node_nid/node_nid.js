@@ -19,7 +19,14 @@ angular.module('myApp.node_nid', ['ngRoute', 'drupalService'])
             ]
         };
 
-        $scope.tags = TaxonomyTerm.query();
+        // TODO: DRY this code is used in node.js too.
+        $scope.tags = TaxonomyTerm.fetch({}, function(data) {
+            // nope
+        }, function(){
+            $scope.messages.push(MESSAGES.termList);
+
+        });
+
         // Fetch node entity for current nid
         $scope.node = Node.fetch({nid: $routeParams.nid}, function (node) {
             $scope.breadcrumb = [

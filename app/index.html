@@ -103,6 +103,18 @@ Test <a href="#node-lifecycle">Node Life Cycle</a>
     </div>
 </script>
 
+<script type='text/ng-template' id="messages">
+    <div ng-if="messages" ng-repeat="message in messages">
+        <div ngHide="1" class="animate-hide">
+            <div class="alert alert-{{ message.type }}" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only">{{ message.type }}:</span>
+                {{ message.text }}
+            </div>
+        </div>
+    </div>
+</script>
+
 <script type='text/ng-template' id="login-block">
     <aside>
         <header>User login</header>

@@ -69,6 +69,11 @@ angular
                     description: 'Should we use basic auth on every call or use cookie and get token?'
                 }
             }
+        },
+        MESSAGES: {
+            termList: {text: "Unable to fetch list of terms. Have you added view taxonomy/list ?", type: "danger"},
+            loginFail: {text: "Cannot login.", type: 'warning'},
+            tokenFail: {text: "Unable to fetch token.", type: "warning"}
         }
     })
 
