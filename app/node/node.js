@@ -29,6 +29,7 @@ angular.module('myApp.node', ['ngRoute', 'drupalService'])
             ]
         };
 
+        // TODO: DRY this code is used in node_nid.js too.
         // Bind tags globally to be usable to print next to each node.
         $scope.tags = TaxonomyTerm.fetch();
         $scope.breadcrumb = [

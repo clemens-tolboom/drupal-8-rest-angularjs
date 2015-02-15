@@ -87,8 +87,10 @@ Test <a href="#node-lifecycle">Node Life Cycle</a>
 <script type='text/ng-template' id="dog-ear">
     <div class="dog-ear" ng-click="issues.visible = !issues.visible" ng-class="{'dog-down': issues.visible, 'dog-up': !issues.visible}">
         <span class="glyphicon glyphicon-bookmark" title="Issues"></span>
+
         <div class="dog-ears">
-            <p>Issues on this <page></page> {{ issues.title }}</p>
+            <p>Issues on this page {{ issues.title }}</p>
+
             <dl data-ng-repeat="item in issues.items">
                 <dt>{{ item.title }}</dt>
                 <dd>{{ item.description }}

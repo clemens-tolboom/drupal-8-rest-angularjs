@@ -10,6 +10,7 @@ angular.module('myApp.node_nid', ['ngRoute', 'drupalService'])
     }])
 
     .controller('NodeNidCtrl', function ($scope, $routeParams, Node, User, TaxonomyTerm, Comment) {
+        // TODO: DRY this code is used in node.js too.
         var anonymousUser = {
             name: [
                 {

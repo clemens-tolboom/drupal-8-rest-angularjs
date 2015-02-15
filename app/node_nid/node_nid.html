@@ -27,6 +27,7 @@
             </ul>
             </p>
         </article>
+
         <h2>Comments</h2>
 
         <form ng-submit="postComment()">
@@ -46,6 +47,7 @@
                 <input type="submit" class="btn btn-default" value="Post comment">
             </div>
         </form>
+
         <div class="comment" ng-repeat="comment in comments">
             <h3>{{ comment.subject[0].value }}</h3>
 
