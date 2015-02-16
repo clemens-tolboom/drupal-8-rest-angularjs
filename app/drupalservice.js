@@ -27,12 +27,40 @@ mod.hal = {
 
     },
     toServer: function (hal) {
-        delete hal._internals;
+        if (hal) {
+            delete hal._internals;
+        }
+    }
+};
+
+mod.drupal = {
+    /**
+     * Transform Headers depending on mode
+     *
+     * @param string mode
+     *   hal | json
+     * @param data
+     * @param headerGetter
+     */
+    transformRequest: function (data, headersGetter, mode, user) {
+        if (mode == 'hal') {
+            headersGetter().Accept = 'application/hal+json';
+
+            if (user) {
+                console.log(user);
+                if (user.token) {
+                    headersGetter()['X-CSRF-Token'] = user.token;
+                }
+            }
+
+            mod.hal.toServer(data);
+        }
+        return angular.toJson(data);
     }
 };
 
 mod
-    .factory('Node', ['SERVER', '$resource', 'DrupalState', function (SERVER, $resource, DrupalState) {
+    .factory('Node', ['SERVER', 'DRUPAL', '$resource', 'DrupalState', function (SERVER, DRUPAL, $resource, DrupalState) {
         return $resource('/node/:nid', {nid: '@nid'}, {
 
             query: {
@@ -40,8 +68,7 @@ mod
                 url: SERVER.URL + '/node',
                 isArray: true,
                 transformRequest: function (data, headersGetter) {
-                    headersGetter().Accept = 'application/hal+json';
-                    return angular.toJson(data);
+                    return mod.drupal.transformRequest(data, headersGetter, DRUPAL.MODE);
                 },
                 transformResponse: function (data, headersGetter) {
                     var json = angular.fromJson(data);
@@ -55,8 +82,7 @@ mod
                 method: 'GET',
                 url: SERVER.URL + '/node/:nid',
                 transformRequest: function (data, headersGetter) {
-                    headersGetter().Accept = 'application/hal+json';
-                    return angular.toJson(data);
+                    return mod.drupal.transformRequest(data, headersGetter, DRUPAL.MODE);
                 },
                 transformResponse: function (data, headersGetter) {
                     var node = angular.fromJson(data);
@@ -70,10 +96,7 @@ mod
                 method: 'PATCH',
                 url: SERVER.URL + '/node/:nid',
                 transformRequest: function (data, headersGetter) {
-                    console.log('transformRequest', data);
-                    mod.hal.toServer(data);
-                    headersGetter()['Content-Type'] = 'application/hal+json';
-                    return angular.toJson(data);
+                    return mod.drupal.transformRequest(data, headersGetter, DRUPAL.MODE);
                 }
             },
 
@@ -81,15 +104,7 @@ mod
                 method: 'POST',
                 url: SERVER.URL + '/entity/node',
                 transformRequest: function (data, headersGetter) {
-                    mod.hal.toServer(data);
-                    headersGetter()['Content-Type'] = 'application/hal+json';
-                    headersGetter()['Accept'] = 'application/json';
-                    var user = DrupalState.get('user');
-                    console.log(user);
-                    if (user.token) {
-                        headersGetter()['X-CSRF-Token'] = user.token;
-                    }
-                    return angular.toJson(data);
+                    return mod.drupal.transformRequest(data, headersGetter, DRUPAL.MODE, DrupalState.get('user'));
                 },
                 transformResponse: function (data, headersGetter) {
                     console.log('transformResponse', data);
@@ -104,7 +119,7 @@ mod
 
     .factory('TaxonomyTerm', ['SERVER', '$resource', function (SERVER, $resource) {
         return $resource(SERVER.URL + '/taxonomy/list/:tid', {tid: '@tid'}, {
-            'fetch' : {
+            'fetch': {
                 method: 'GET',
                 //transformRequest: function (data, headersGetter) {
                 //    headersGetter().Accept = 'application/hal+json';
@@ -113,7 +128,7 @@ mod
                 transformResponse: function (data, headersGetter) {
                     var json = angular.fromJson(data);
                     var hash = {};
-                    angular.forEach(json, function(item){
+                    angular.forEach(json, function (item) {
                         hash[item.tid] = item;
                     });
                     return hash;
@@ -132,8 +147,7 @@ mod
                 method: 'POST',
                 url: '/entity/comment',
                 transformRequest: function (data, headersGetter) {
-                    headersGetter().Accept = 'application/hal+json';
-                    headersGetter()['Content-Type'] = 'application/hal+json';
+                    return mod.drupal.transformRequest(data, headersGetter, DRUPAL.MODE, DrupalState.get('user'));
                 }
             }
         });
@@ -172,5 +186,5 @@ mod
         cache.set('X-CSRF-Token', null);
 
         return cache;
-    })
-;
+    }
+);

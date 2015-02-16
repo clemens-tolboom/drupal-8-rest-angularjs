@@ -14,6 +14,11 @@ angular
         'myApp.node_lifecycle'
     ])
     .constant({
+        DRUPAL : {
+            MODE : 'hal'
+            // Unsupported yet.
+            // MODE : json
+        },
         'SERVER': {
             // Use with default install beneath Drupal root/app
             'URL': ''
