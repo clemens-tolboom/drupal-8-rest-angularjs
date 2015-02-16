@@ -16,17 +16,18 @@
                 {{ node.body[0].value }}
             </p>
 
-            <p>
-                Tags:<br>
+            <p ng-if="node._internals.field_tags">
+                Tags:<br/>
             <ul>
-                <li ng-repeat="tag in tags">
-                    <a href="#/taxonomy/term/{{ tag[0].tid[0].value }}">
-                        {{ tag[0].name[0].value }}
+                <li ng-repeat="tag in node._internals.field_tags | filter:filterByTag">
+                    <a href="#/taxonomy/term/{{ tag.target_id }}">
+                        {{ tags[tag.target_id].name }}
                     </a>
                 </li>
             </ul>
             </p>
         </article>
+
         <h2>Comments</h2>
 
         <form ng-submit="postComment()">
@@ -46,6 +47,7 @@
                 <input type="submit" class="btn btn-default" value="Post comment">
             </div>
         </form>
+
         <div class="comment" ng-repeat="comment in comments">
             <h3>{{ comment.subject[0].value }}</h3>
 

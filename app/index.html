@@ -22,14 +22,21 @@
 <div class="container">
     <div ng-view></div>
 </div>
-Test <a href="#node-lifecycle">Node Life Cycle</a>
 <footer>
-
+  <aside>
+      <header>Powered by</header>
+      <p>Drupal, Angular and Bootstrap</p>
+  </aside>
+    <aside>
+        <header>Developed by</header>
+        <p>The Drupal Community</p>
+    </aside>
 </footer>
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/angular-route/angular-route.js"></script>
 <script src="bower_components/angular-resource/angular-resource.js"></script>
 <script src="drupalservice.js"></script>
+<script src="cacheservice.js"></script>
 <script src="app.js"></script>
 <script src="node_lifecycle/node_lifecycle.js"></script>
 <script src="node/node.js"></script>
@@ -37,6 +44,11 @@ Test <a href="#node-lifecycle">Node Life Cycle</a>
 <script src="node_add/node_add.js"></script>
 <script src="taxonomy_term/taxonomy_term.js"></script>
 
+<script type='text/ng-template' id="dog-ear-ref">
+    <div ng-if="issues" class="dog-ear" ng-click="issues.visible = !issues.visible">
+        <span class="glyphicon glyphicon-bookmark" title="Issues"></span>
+    </div>
+</script>
 
 <script type='text/ng-template' id="breadcrumb">
     <ul class="breadcrumb">
@@ -46,39 +58,97 @@ Test <a href="#node-lifecycle">Node Life Cycle</a>
 
 <script type='text/ng-template' id="side-bar-first">
     <aside>
-        <header>Drupal Frontend</header>
-        <ul>
-            <li>Switch to <a href="/">Drupal</a>.</li>
-            <li>Test <a href="#node-lifecycle">Node life cycle</a>.</li>
-        </ul>
-
-    </aside>
-    <aside>
         <header>Search</header>
         <input type="search" class="form-control" placeholder="To Be Defined">
     </aside>
     <aside>
+        <ng-include src="'dog-ear-ref'"></ng-include>
         <header>Tools</header>
         <ul>
             <li><a href="#node/add">Add article</a></li>
         </ul>
     </aside>
+    <ng-include ng-if="user && !user.authenticated" src="'login-block'"></ng-include>
+
     <ng-include src="'about'"></ng-include>
 </script>
 
 <script type='text/ng-template' id="about">
     <aside>
-        <header>About Drupal</header>
-        Menus are not working. Menus are <a href="https://www.drupal.org/node/2300677">config entity not exposed</a>
-        yet.
-        Menu links are not accessible either.
+        <ng-include src="'dog-ear-ref'"></ng-include>
+        <header>About APP</header>
+        <ul>
+            <li>Switch to <a href="/">Drupal</a>.</li>
+            <li>Test <a href="#node-lifecycle">Node life cycle</a>.</li>
+        </ul>
     </aside>
     <aside>
+        <ng-include src="'dog-ear-ref'"></ng-include>
         <header>json versus hal+json</header>
         Posting and Patching is currently not possible using json so we use hal+json.
     </aside>
 
 </script>
+
+<!-- Add info about current issues for current item -->
+<script type='text/ng-template' id="dog-ear">
+    <div class="dog-ear" ng-click="issues.visible = !issues.visible"
+         ng-class="{'dog-down': issues.visible, 'dog-up': !issues.visible}">
+        <span class="glyphicon glyphicon-bookmark" title="Issues"></span>
+
+        <div class="dog-ears">
+            <p>Issues on this page {{ issues.title }}</p>
+
+            <dl data-ng-repeat="item in issues.items">
+                <dt>{{ item.title }}</dt>
+                <dd>{{ item.description }}
+                    <ul ng-if="item.urls" ng-repeat="url in item.urls">
+                        <li><a href="{{ url.url }}">{{ url.title }}</a></li>
+                    </ul>
+                </dd>
+            </dl>
+        </div>
+    </div>
+</script>
+
+<script type='text/ng-template' id="messages">
+    <div ng-if="messages" ng-repeat="message in messages">
+        <div ngHide="1" class="animate-hide">
+            <div class="alert alert-{{ message.type }}" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only">{{ message.type }}:</span>
+                {{ message.text }}
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type='text/ng-template' id="login-block">
+    <aside>
+        <header>User login</header>
+        <form>
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" required="required" class="form-control" ng-model="user.username">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" required="required" class="form-control" ng-model="user.password">
+            </div>
+            <div class="form-group">
+                <input type="button" class="btn btn-info" value="Login" ng-click="userLogin();">
+            </div>
+        </form>
+        <div class="item-list">
+            <ul>
+                <li><a href="/user/register" title="Create a new user account." class="create-account-link">Create new
+                    account</a></li>
+                <li><a href="/user/password" title="Send password reset instructions via e-mail."
+                       class="request-password-link">Reset your password</a></li>
+            </ul>
+        </div>
+        </div>
+    </aside>
 
 </script>
 

@@ -15,11 +15,8 @@ angular.module('myApp.node_add', ['ngRoute', 'drupalService'])
                 path: '',
                 title: 'Home'
             }, {
-                path: '#node',
-                title: 'Node'
-            }, {
                 path: '#node/add',
-                title: 'Add'
+                title: 'Add content'
             }
         ];
 
