@@ -69,6 +69,7 @@
         </ul>
     </aside>
     <ng-include ng-if="user && !user.authenticated" src="'login-block'"></ng-include>
+    <ng-include ng-if="user && user.authenticated" src="'logout-block'"></ng-include>
 
     <ng-include src="'about'"></ng-include>
 </script>
@@ -151,8 +152,15 @@
         </div>
         </div>
     </aside>
-
 </script>
 
+<script type='text/ng-template' id="logout-block">
+    <aside>
+        <header>User</header>
+        <ul>
+            <li><a title="Logout" ng-click="userLogout();">Logout</a></li>
+        </ul>
+    </aside>
+</script>
 </body>
 </html>

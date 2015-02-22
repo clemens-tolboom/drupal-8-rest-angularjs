@@ -125,8 +125,59 @@ mod
         });
     }])
 
-    .factory('User', ['SERVER', '$resource', function (SERVER, $resource) {
-        return $resource(SERVER.URL + '/user/:uid', {uid: '@uid'}, {});
+    .factory('User', ['SERVER', '$resource', 'DrupalState', function (SERVER, $resource, DrupalState) {
+        return $resource(SERVER.URL + '/user/:uid', {uid: '@uid'}, {
+            // User login: https://www.drupal.org/node/2403307
+            login: {
+                method: 'POST',
+                url: '/user_login',
+                transformRequest: function (data, headersGetter) {
+                    headersGetter()['Content-Type'] = 'application/json';
+                    headersGetter()['Accept'] = 'application/json';
+                    var user = DrupalState.get('user');
+                    data = {
+                        op: 'login',
+                        credentials: {
+                            name: user.username,
+                            pass: user.password
+                        }
+                    };
+                    console.log(user, data);
+                    if (user.token) {
+                        headersGetter()['X-CSRF-Token'] = user.token;
+                    }
+                    return angular.toJson(data);
+                },
+                transformResponse: function (data, headersGetter) {
+                    // return raw token data
+                    console.log(data);
+                    return {response: data};
+                }
+            },
+            logout: {
+                method: 'POST',
+                url: '/user_login',
+                transformRequest: function (data, headersGetter) {
+                    headersGetter()['Content-Type'] = 'application/json';
+                    headersGetter()['Accept'] = 'application/json';
+                    var user = DrupalState.get('user');
+                    data = {
+                        op: 'logout'
+                    };
+                    console.log(user, data);
+                    if (user.token) {
+                        headersGetter()['X-CSRF-Token'] = user.token;
+                    }
+                    return angular.toJson(data);
+                },
+                transformResponse: function (data, headersGetter) {
+                    // return raw token data
+                    console.log(data);
+                    return {response: data};
+                }
+
+            }
+        });
     }])
 
     .factory('Comment', ['SERVER', '$resource', function (SERVER, $resource) {

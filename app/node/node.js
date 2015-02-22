@@ -51,8 +51,25 @@ angular.module('myApp.node', ['ngRoute', 'drupalService'])
 
         $scope.userLogin = function () {
             if ($scope.user.username && $scope.user.password) {
-                $scope.messages.push(MESSAGES.loginFail);
-                console.log($scope.user);
+                User.login({}, function (result) {
+                    console.log(arguments);
+                    $scope.messages.push({text: result.response, type: 'success'});
+                    $scope.user.authenticated = true;
+                }, function (result) {
+                    $scope.messages.push(MESSAGES.loginFail);
+                });
+            }
+        };
+
+        $scope.userLogout = function () {
+            if ($scope.user.authenticated) {
+                User.logout({}, function (result) {
+                    console.log(arguments);
+                    $scope.messages.push({text: result.response, type: 'success'});
+                    $scope.user.authenticated = false;
+                }, function (result) {
+                    $scope.messages.push(MESSAGES.loginFail);
+                });
             }
         };
 
