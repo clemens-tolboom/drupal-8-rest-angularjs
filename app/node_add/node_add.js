@@ -9,7 +9,7 @@ angular.module('myApp.node_add', ['ngRoute', 'drupalService'])
         });
     }])
 
-    .controller('NodeAddCtrl', function ($scope, $routeParams, Node, User, TaxonomyTerm, Comment) {
+    .controller('NodeAddCtrl', function ($scope, $routeParams, $location, MESSAGES, Node, User, TaxonomyTerm, Comment) {
         $scope.breadcrumb = [
             {
                 path: '',
