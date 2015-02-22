@@ -93,6 +93,9 @@ mod
                 },
                 transformResponse: function (data, headersGetter) {
                     console.log('transformResponse', data);
+                    if (data) {
+                        return angular.fromJson(data);
+                    }
                 }
             }
         });
@@ -144,6 +147,7 @@ mod
             fetch: {
                 method: 'GET',
                 transformResponse: function (data, headersGetter) {
+                    // return raw token data
                     return {token: data};
                 }
             }

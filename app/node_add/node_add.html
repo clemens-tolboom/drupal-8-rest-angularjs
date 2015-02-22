@@ -6,6 +6,7 @@
         <ng-include src="'side-bar-first'"></ng-include>
     </div>
     <div class="col-md-9">
+        <ng-include src="'messages'"></ng-include>
         <article>
             <h1>New article {{ node.title[0].value }}</h1>
             <form ng-submit="postNode()">

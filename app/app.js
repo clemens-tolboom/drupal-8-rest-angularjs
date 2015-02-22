@@ -72,8 +72,20 @@ angular
         },
         MESSAGES: {
             termList: {text: "Unable to fetch list of terms. Have you added view taxonomy/list ?", type: "danger"},
+
             loginFail: {text: "Cannot login.", type: 'warning'},
-            tokenFail: {text: "Unable to fetch token.", type: "warning"}
+
+            tokenFail: {text: "Unable to fetch token.", type: "warning"},
+
+            createNodeFail: {text: "Unabled to create node", type: "danger"},
+            readNodeFail: {text: "Unabled to read node", type: "danger"},
+            updateNodeFail: {text: "Unabled to update node", type: "danger"},
+            deleteNodeFail: {text: "Unabled to delete node", type: "danger"},
+
+            createCommentFail: {text: "Unabled to create comment", type: "danger"},
+            readCommentFail: {text: "Unabled to read comment", type: "danger"},
+            updateCommentFail: {text: "Unabled to update comment", type: "danger"},
+            deleteCommentFail: {text: "Unabled to delete comment", type: "danger"}
         }
     })
 

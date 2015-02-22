@@ -20,6 +20,8 @@ angular.module('myApp.node_add', ['ngRoute', 'drupalService'])
             }
         ];
 
+        $scope.messages = [];
+
         $scope.node = {
             title: [
                 {
@@ -63,6 +65,20 @@ angular.module('myApp.node_add', ['ngRoute', 'drupalService'])
                     }
                 }
             };
-            Node.create({}, $scope.node);
+            Node.create({}, $scope.node, function (result) {
+                console.log(arguments);
+                $location.path('/node');
+            }, function (result) {
+                console.log(arguments);
+                console.log(result);
+                if (result.data && result.data.error) {
+                    result.statusText += ": " + result.data.error;
+                }
+                var message = {
+                    text: MESSAGES.createNodeFail.text + " (" + result.status + ": " + result.statusText + ")",
+                    type: MESSAGES.createNodeFail.type
+                };
+                $scope.messages.push(message);
+            });
         }
     });
