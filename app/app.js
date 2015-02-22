@@ -73,7 +73,7 @@ angular
         MESSAGES: {
             termList: {text: "Unable to fetch list of terms. Have you added view taxonomy/list ?", type: "danger"},
 
-            loginFail: {text: "Cannot login.", type: 'warning'},
+            loginFail: {text: "Cannot login. Have you applied https://www.drupal.org/node/2403307", type: 'warning'},
             logoutFail: {text: "Cannot logout.", type: 'warning'},
 
             tokenFail: {text: "Unable to fetch token.", type: "warning"},
