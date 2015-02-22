@@ -23,10 +23,10 @@
     <div ng-view></div>
 </div>
 <footer>
-  <aside>
-      <header>Powered by</header>
-      <p>Drupal, Angular and Bootstrap</p>
-  </aside>
+    <aside>
+        <header>Powered by</header>
+        <p>Drupal, Angular and Bootstrap</p>
+    </aside>
     <aside>
         <header>Developed by</header>
         <p>The Drupal Community</p>
@@ -129,11 +129,13 @@
         <form>
             <div class="form-group">
                 <label>Username</label>
-                <input type="text" required="required" class="form-control" ng-model="user.username" placeholder="your username">
+                <input type="text" required="required" class="form-control" ng-model="user.username"
+                       placeholder="your username">
             </div>
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" required="required" class="form-control" ng-model="user.password" placeholder="your password">
+                <input type="password" required="required" class="form-control" ng-model="user.password"
+                       placeholder="your password">
             </div>
             <div class="form-group">
                 <input type="button" class="btn btn-info" value="Login" ng-click="userLogin();">
