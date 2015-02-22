@@ -74,6 +74,7 @@ angular
             termList: {text: "Unable to fetch list of terms. Have you added view taxonomy/list ?", type: "danger"},
 
             loginFail: {text: "Cannot login.", type: 'warning'},
+            logoutFail: {text: "Cannot logout.", type: 'warning'},
 
             tokenFail: {text: "Unable to fetch token.", type: "warning"},
 

@@ -68,7 +68,7 @@ angular.module('myApp.node', ['ngRoute', 'drupalService'])
                     $scope.messages.push({text: result.response, type: 'success'});
                     $scope.user.authenticated = false;
                 }, function (result) {
-                    $scope.messages.push(MESSAGES.loginFail);
+                    $scope.messages.push(MESSAGES.logoutFail);
                 });
             }
         };
