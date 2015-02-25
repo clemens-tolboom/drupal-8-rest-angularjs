@@ -107,7 +107,7 @@ mod
 
     .factory('TaxonomyTerm', ['SERVER', '$resource', function (SERVER, $resource) {
         return $resource(SERVER.URL + '/taxonomy/list/:tid', {tid: '@tid'}, {
-            'fetch' : {
+            'fetch': {
                 method: 'GET',
                 //transformRequest: function (data, headersGetter) {
                 //    headersGetter().Accept = 'application/hal+json';
@@ -116,7 +116,7 @@ mod
                 transformResponse: function (data, headersGetter) {
                     var json = angular.fromJson(data);
                     var hash = {};
-                    angular.forEach(json, function(item){
+                    angular.forEach(json, function (item) {
                         hash[item.tid] = item;
                     });
                     return hash;

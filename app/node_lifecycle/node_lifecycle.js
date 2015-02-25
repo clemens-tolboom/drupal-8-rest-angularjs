@@ -9,7 +9,7 @@ angular.module('myApp.node_lifecycle', ['ngRoute', 'drupalService'])
         });
     }])
 
-    .controller('NodeLifeCycleCtrl', [$scope, $routeParams, MESSAGES, Node, User, TaxonomyTerm, Comment, function ($scope, $routeParams, MESSAGES, Node, User, TaxonomyTerm, Comment) {
+    .controller('NodeLifeCycleCtrl', ["$scope", "$routeParams", "MESSAGES", "Node", "User", "TaxonomyTerm", "Comment", function ($scope, $routeParams, MESSAGES, Node, User, TaxonomyTerm, Comment) {
         $scope.messages = [];
 
         // TODO: DRY alert

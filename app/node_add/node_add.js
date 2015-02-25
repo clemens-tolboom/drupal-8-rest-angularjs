@@ -66,7 +66,6 @@ angular.module('myApp.node_add', ['ngRoute', 'drupalService'])
                 }
             };
             Node.create({}, $scope.node, function (result) {
-                console.log(arguments);
                 $location.path('/node');
             }, function (result) {
                 console.log(arguments);

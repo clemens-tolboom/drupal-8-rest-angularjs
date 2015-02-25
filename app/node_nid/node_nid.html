@@ -6,26 +6,28 @@
         <ng-include src="'side-bar-first'"></ng-include>
     </div>
     <div class="col-md-9">
+        <ng-include src="'messages'"></ng-include>
         <article>
             <h1>{{ node.title[0].value }}</h1>
 
             <div class="meta">
                 Submitted by {{ node.user.name[0].value }} on {{ node.created[0].value * 1000 | date:'medium' }}
             </div>
-            <p>
+            <p class="body">
                 {{ node.body[0].value }}
             </p>
 
-            <p ng-if="node._internals.field_tags">
-                Tags:<br/>
-            <ul>
-                <li ng-repeat="tag in node._internals.field_tags | filter:filterByTag">
-                    <a href="#/taxonomy/term/{{ tag.target_id }}">
-                        {{ tags[tag.target_id].name }}
-                    </a>
-                </li>
-            </ul>
-            </p>
+            <div class="tags" ng-if="node._internals.field_tags">
+                <p>Tags:</p>
+                <ul>
+                    <li ng-repeat="tag in node._internals.field_tags | filter:filterByTag">
+                        <a href="#/taxonomy/term/{{ tag.target_id }}">
+                            {{ tags[tag.target_id].name }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <input type="button" class="btn btn-info" value="Delete node" ng-click="deleteNode();">
         </article>
 
         <h2>Comments</h2>
