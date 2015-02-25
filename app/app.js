@@ -71,9 +71,13 @@ angular
             }
         },
         MESSAGES: {
+            // Contains message { text:'', type: 'success | info | warning | danger' }
+
             termList: {text: "Unable to fetch list of terms. Have you added view taxonomy/list ?", type: "danger"},
 
-            loginFail: {text: "Cannot login. Have you applied https://www.drupal.org/node/2403307", type: 'warning'},
+            loginMethod: {text: "You need to use BASIC_AUTH unless you applied https://www.drupal.org/node/2403307 or are logged into Drupal on same domain.", type: 'info'},
+            loginBasicAuth: {text: "Using your username and password for every request (BASIC_AUTH).", type: 'info'},
+            loginFail: {text: "Cannot login. Have you applied https://www.drupal.org/node/2403307 ?", type: 'warning'},
             logoutFail: {text: "Cannot logout.", type: 'warning'},
 
             tokenFail: {text: "Unable to fetch token.", type: "warning"},

@@ -139,6 +139,9 @@
                        placeholder="your password">
             </div>
             <div class="form-group">
+                <input type="radio" ng-model="user.authMethod" value="COOKIE"> Cookie <input type="radio" ng-model="user.authMethod" value="BASIC_AUTH"> Basic auth
+            </div>
+            <div class="form-group">
                 <input type="button" class="btn btn-info" value="Login" ng-click="userLogin();">
             </div>
         </form>

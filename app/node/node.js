@@ -19,6 +19,9 @@ angular.module('myApp.node', ['ngRoute', 'drupalService'])
             ]
         };
 
+        // How to connect to Drupal
+        $scope.auth = DrupalState.get('user').authMethod;
+
         $scope.issues = {
             'title': 'Front page',
             'items': [
@@ -46,30 +49,42 @@ angular.module('myApp.node', ['ngRoute', 'drupalService'])
             }
         ];
 
-        // Contains message { text:'', type: 'success | info | warning | danger' }
         $scope.messages = [];
+
+        $scope.messages.push(MESSAGES.loginMethod);
 
         $scope.userLogin = function () {
             if ($scope.user.username && $scope.user.password) {
-                User.login({}, function (result) {
-                    console.log(arguments);
-                    $scope.messages.push({text: result.response, type: 'success'});
+                if ($scope.user.authMethod === 'BASIC_AUTH') {
+                    $scope.messages.push(MESSAGES.loginBasicAuth);
                     $scope.user.authenticated = true;
-                }, function (result) {
-                    $scope.messages.push(MESSAGES.loginFail);
-                });
+                }
+                else if ($scope.user.authMethod === 'COOKIE') {
+                    User.login({}, function (result) {
+                        console.log(arguments);
+                        $scope.messages.push({text: result.response, type: 'success'});
+                        $scope.user.authenticated = true;
+                    }, function (result) {
+                        $scope.messages.push(MESSAGES.loginFail);
+                    });
+                }
             }
         };
 
         $scope.userLogout = function () {
             if ($scope.user.authenticated) {
-                User.logout({}, function (result) {
-                    console.log(arguments);
-                    $scope.messages.push({text: result.response, type: 'success'});
+                $scope.user.password = '';
+                if ($scope.user.authMethod === 'BASIC_AUTH') {
                     $scope.user.authenticated = false;
-                }, function (result) {
-                    $scope.messages.push(MESSAGES.logoutFail);
-                });
+                }
+                else if ($scope.user.authMethod === 'COOKIE') {
+                    User.logout({}, function (result) {
+                        $scope.messages.push({text: result.response, type: 'success'});
+                        $scope.user.authenticated = false;
+                    }, function (result) {
+                        $scope.messages.push(MESSAGES.logoutFail);
+                    });
+                }
             }
         };
 

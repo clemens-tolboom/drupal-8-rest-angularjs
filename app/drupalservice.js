@@ -40,14 +40,6 @@ mod.drupal = {
             }
         }
     },
-    auth: 'COOKIE',
-    setAuth: function (auth) {
-        if (mod.drupal.auth !== auth) {
-            if (mode === 'COOKIE' || auth === 'BASIC_AUTH') {
-                mod.drupal.auth = auth;
-            }
-        }
-    },
     addToken: function (DrupalState, headersGetter) {
         var user = DrupalState.get('user');
         if (user.token) {
@@ -55,6 +47,16 @@ mod.drupal = {
         }
         else {
             console.log('Unable to get token');
+        }
+    },
+    addBasicAuth: function (DrupalState, headersGetter) {
+        var user = DrupalState.get('user');
+        if (user.username && user.password) {
+            headersGetter()['PHP_AUTH_USER'] = user.username;
+            headersGetter()['PHP_AUTH_PW']= user.password;
+        }
+        else {
+            console.log('Unable to use BASIC_AUTH');
         }
     },
     setHeaders: function (method, DrupalState, headersGetter) {
@@ -74,8 +76,11 @@ mod.drupal = {
             }
         }
 
-        if (mod.drupal.auth === 'COOKIE') {
+        if (DrupalState.get('user').authMethod === 'COOKIE') {
             mod.drupal.addToken(DrupalState, headersGetter);
+        }
+        else if (DrupalState.get('user').authMethod === 'BASIC_AUTH') {
+            mod.drupal.addBasicAuth(DrupalState, headersGetter);
         }
     }
 };
@@ -283,7 +288,7 @@ mod
                 CacheService.put(key, '');
             }
         };
-        cache.set('user', {username: null, password: null, authenticated: false});
+        cache.set('user', {username: null, password: null, authenticated: false, authMethod: 'COOKIE'});
         cache.set('X-CSRF-Token', null);
 
         return cache;
