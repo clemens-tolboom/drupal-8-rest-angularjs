@@ -31,6 +31,55 @@ mod.hal = {
     }
 };
 
+mod.drupal = {
+    mode: 'hal+json',
+    setMode: function (mode) {
+        if (mod.drupal.mode !== mode) {
+            if (mode === 'json' || mode === 'hal+json') {
+                mod.drupal.mode = mode;
+            }
+        }
+    },
+    auth: 'COOKIE',
+    setAuth: function (auth) {
+        if (mod.drupal.auth !== auth) {
+            if (mode === 'COOKIE' || auth === 'BASIC_AUTH') {
+                mod.drupal.auth = auth;
+            }
+        }
+    },
+    addToken: function (DrupalState, headersGetter) {
+        var user = DrupalState.get('user');
+        if (user.token) {
+            headersGetter()['X-CSRF-Token'] = user.token;
+        }
+        else {
+            console.log('Unable to get token');
+        }
+    },
+    setHeaders: function (method, DrupalState, headersGetter) {
+        var addContentType = false;
+        if (method === 'POST' || method === 'PATCH') {
+            addContentType = true;
+        }
+        if (mod.drupal.mode === 'hal+json') {
+            headersGetter().Accept = 'application/hal+json';
+            if (addContentType === true) {
+                headersGetter()['Content-Type'] = 'application/hal+json';
+            }
+        } else if (mod.drupal.mode === 'json') {
+            headersGetter().Accept = 'application/json';
+            if (addContentType === true) {
+                headersGetter()['Content-Type'] = 'application/json';
+            }
+        }
+
+        if (mod.drupal.auth === 'COOKIE') {
+            mod.drupal.addToken(DrupalState, headersGetter);
+        }
+    }
+};
+
 mod
     .factory('Node', ['SERVER', '$resource', 'DrupalState', function (SERVER, $resource, DrupalState) {
         return $resource('/node/:nid', {nid: '@nid'}, {
@@ -40,7 +89,8 @@ mod
                 url: SERVER.URL + '/node',
                 isArray: true,
                 transformRequest: function (data, headersGetter) {
-                    headersGetter().Accept = 'application/hal+json';
+                    mod.drupal.setHeaders('GET', DrupalState, headersGetter);
+
                     return angular.toJson(data);
                 },
                 transformResponse: function (data, headersGetter) {
@@ -55,7 +105,8 @@ mod
                 method: 'GET',
                 url: SERVER.URL + '/node/:nid',
                 transformRequest: function (data, headersGetter) {
-                    headersGetter().Accept = 'application/hal+json';
+                    mod.drupal.setHeaders('GET', DrupalState, headersGetter);
+
                     return angular.toJson(data);
                 },
                 transformResponse: function (data, headersGetter) {
@@ -70,9 +121,20 @@ mod
                 method: 'PATCH',
                 url: SERVER.URL + '/node/:nid',
                 transformRequest: function (data, headersGetter) {
-                    console.log('transformRequest', data);
                     mod.hal.toServer(data);
-                    headersGetter()['Content-Type'] = 'application/hal+json';
+
+                    mod.drupal.setHeaders('PATCH', DrupalState, headersGetter);
+
+                    return angular.toJson(data);
+                }
+            },
+
+            remove: {
+                method: 'DELETE',
+                url: SERVER.URL + '/node/:nid',
+                transformRequest: function (data, headersGetter) {
+                    mod.drupal.setHeaders('DELETE', DrupalState, headersGetter);
+
                     return angular.toJson(data);
                 }
             },
@@ -84,11 +146,9 @@ mod
                     mod.hal.toServer(data);
                     headersGetter()['Content-Type'] = 'application/hal+json';
                     headersGetter()['Accept'] = 'application/json';
-                    var user = DrupalState.get('user');
-                    console.log(user);
-                    if (user.token) {
-                        headersGetter()['X-CSRF-Token'] = user.token;
-                    }
+
+                    mod.drupal.addToken(DrupalState, headersGetter);
+
                     return angular.toJson(data);
                 },
                 transformResponse: function (data, headersGetter) {

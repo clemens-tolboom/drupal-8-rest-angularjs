@@ -56,6 +56,16 @@ angular.module('myApp.node_nid', ['ngRoute', 'drupalService'])
             nid: $routeParams.nid
         });
 
+        $scope.deleteNode = function () {
+            Node.remove({nid: $scope.nid}, function (){
+                $location.path('/node');
+            }, function(result) {
+                var message = {text: MESSAGES.deleteNodeFail.text + ' (' + result.status + ': ' + result.statusText + ')', type: MESSAGES.deleteNodeFail.type};
+                $scope.messages.push(message);
+            });
+            $scope.node = {};
+        };
+
         $scope.postComment = function () {
             // Post new comment to this node. $scope.newComment contains the http payload
             $scope.newComment.entity_type = 'node';
