@@ -61,7 +61,6 @@ angular.module('myApp.node', ['ngRoute', 'drupalService'])
                 }
                 else if ($scope.user.authMethod === 'COOKIE') {
                     User.login({}, function (result) {
-                        console.log(arguments);
                         $scope.messages.push({text: result.response, type: 'success'});
                         $scope.user.authenticated = true;
                     }, function (result) {
