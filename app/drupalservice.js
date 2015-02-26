@@ -51,7 +51,7 @@ mod.drupal = {
         var user = DrupalState.get('user');
         if (user.username && user.password) {
             headersGetter()['PHP_AUTH_USER'] = user.username;
-            headersGetter()['PHP_AUTH_PW']= user.password;
+            headersGetter()['PHP_AUTH_PW'] = user.password;
         }
         else {
             console.log('Unable to use BASIC_AUTH');
@@ -270,7 +270,7 @@ mod
     }])
 
     .factory('DrupalState', function (CacheService) {
-        var cache = {
+        var state = {
             get: function (key) {
                 var item = CacheService.get(key);
 
@@ -285,11 +285,17 @@ mod
             },
             clear: function (key) {
                 CacheService.put(key, '');
+            },
+            login: function () {
+
+            },
+            logout: function () {
+
             }
         };
-        cache.set('user', {username: null, password: null, authenticated: false, authMethod: 'COOKIE'});
-        cache.set('X-CSRF-Token', null);
+        state.set('user', {username: null, password: null, authenticated: false, authMethod: 'COOKIE'});
+        state.set('X-CSRF-Token', null);
 
-        return cache;
+        return state;
     })
 ;

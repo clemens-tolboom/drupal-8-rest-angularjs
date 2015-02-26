@@ -139,7 +139,8 @@
                        placeholder="your password">
             </div>
             <div class="form-group">
-                <input type="radio" ng-model="user.authMethod" value="COOKIE"> Cookie <input type="radio" ng-model="user.authMethod" value="BASIC_AUTH"> Basic auth
+                <input type="radio" ng-model="user.authMethod" value="COOKIE"> Cookie
+                <input type="radio" ng-model="user.authMethod" value="BASIC_AUTH"> Basic auth
             </div>
             <div class="form-group">
                 <input type="button" class="btn btn-info" value="Login" ng-click="userLogin();">
@@ -152,7 +153,6 @@
                 <li><a href="/user/password" title="Send password reset instructions via e-mail."
                        class="request-password-link">Reset your password</a></li>
             </ul>
-        </div>
         </div>
     </aside>
 </script>

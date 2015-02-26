@@ -23,9 +23,9 @@ angular.module('myApp.node_nid', ['ngRoute', 'drupalService'])
         $scope.nid = $routeParams.nid;
 
         // TODO: DRY this code is used in node.js too.
-        $scope.tags = TaxonomyTerm.fetch({}, function(data) {
+        $scope.tags = TaxonomyTerm.fetch({}, function (data) {
             // nope
-        }, function(){
+        }, function () {
             $scope.messages.push(MESSAGES.termList);
 
         });
@@ -54,19 +54,25 @@ angular.module('myApp.node_nid', ['ngRoute', 'drupalService'])
         // Fetch the comments for this node (Using a special view in Drupal)
         $scope.comments = Comment.query({
             nid: $routeParams.nid
-        }, function(response){
+        }, function (response) {
 
-        }, function(result){
-            var message = {text: MESSAGES.readCommentFail.text + ' (' + result.status + ': ' + result.statusText + ')', type: MESSAGES.deleteNodeFail.type};
+        }, function (result) {
+            var message = {
+                text: MESSAGES.readCommentFail.text + ' (' + result.status + ': ' + result.statusText + ')',
+                type: MESSAGES.deleteNodeFail.type
+            };
             $scope.messages.push(message);
 
         });
 
         $scope.deleteNode = function () {
-            Node.remove({nid: $scope.nid}, function (){
+            Node.remove({nid: $scope.nid}, function () {
                 $location.path('/node');
-            }, function(result) {
-                var message = {text: MESSAGES.deleteNodeFail.text + ' (' + result.status + ': ' + result.statusText + ')', type: MESSAGES.deleteNodeFail.type};
+            }, function (result) {
+                var message = {
+                    text: MESSAGES.deleteNodeFail.text + ' (' + result.status + ': ' + result.statusText + ')',
+                    type: MESSAGES.deleteNodeFail.type
+                };
                 $scope.messages.push(message);
             });
             $scope.node = {};
