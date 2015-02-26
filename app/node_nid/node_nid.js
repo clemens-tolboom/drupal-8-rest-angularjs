@@ -78,6 +78,26 @@ angular.module('myApp.node_nid', ['ngRoute', 'drupalService'])
             $scope.node = {};
         };
 
+        //$scope.newComment = {
+        //    "title": [
+        //        "Title: iyBci1TVidlk X7iei0p"
+        //    ],
+        //    "body": {
+        //        "value": "Body: 1xGwZX RXxfd3QqlSge8tzsttALHTM4UgKodFo1AWgNZ4ahWrv1V2ulw24bVQfN4"
+        //    },
+        //    "_links": {
+        //        "http:\/\/drupal.d8\/rest\/relation\/node\/article\/uid": [
+        //            {
+        //                "href": "http:\/\/drupal.d8\/user\/0"
+        //            }
+        //        ],
+        //        "type": {
+        //            "href": "http:\/\/drupal.d8\/rest\/type\/node\/article"
+        //        }
+        //
+        //    }
+        //};
+
         $scope.postComment = function () {
             // Post new comment to this node. $scope.newComment contains the http payload
             $scope.newComment.entity_type = 'node';
