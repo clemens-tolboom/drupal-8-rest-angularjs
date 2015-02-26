@@ -54,6 +54,12 @@ angular.module('myApp.node_nid', ['ngRoute', 'drupalService'])
         // Fetch the comments for this node (Using a special view in Drupal)
         $scope.comments = Comment.query({
             nid: $routeParams.nid
+        }, function(response){
+
+        }, function(result){
+            var message = {text: MESSAGES.readCommentFail.text + ' (' + result.status + ': ' + result.statusText + ')', type: MESSAGES.deleteNodeFail.type};
+            $scope.messages.push(message);
+
         });
 
         $scope.deleteNode = function () {
@@ -74,6 +80,10 @@ angular.module('myApp.node_nid', ['ngRoute', 'drupalService'])
             Comment.post({}, $scope.newComment, function (response) {
                 // Comment posted, refresh the comment list
                 $scope.comments = Comment.query({nid: $routeParams.nid});
+                // TODO redirect
+            }, function(result) {
+                var message = {text: MESSAGES.createCommentFail.text + ' (' + result.status + ': ' + result.statusText + ')', type: MESSAGES.deleteNodeFail.type};
+                $scope.messages.push(message);
             });
         };
 

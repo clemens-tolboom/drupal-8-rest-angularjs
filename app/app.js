@@ -88,7 +88,7 @@ angular
             deleteNodeFail: {text: "Unabled to delete node", type: "danger"},
 
             createCommentFail: {text: "Unabled to create comment", type: "danger"},
-            readCommentFail: {text: "Unabled to read comment", type: "danger"},
+            readCommentFail: {text: "Unabled to read comment. Have you added the view node/nid/comments ?", type: "danger"},
             updateCommentFail: {text: "Unabled to update comment", type: "danger"},
             deleteCommentFail: {text: "Unabled to delete comment", type: "danger"}
         }
