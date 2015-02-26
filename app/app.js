@@ -82,8 +82,9 @@ angular
 
             tokenFail: {text: "Unable to fetch token.", type: "warning"},
 
+            listNodeFail: {text: "Unabled to read nodes. Have you exposed REST export display?", type: "danger"},
             createNodeFail: {text: "Unabled to create node", type: "danger"},
-            readNodeFail: {text: "Unabled to read node", type: "danger"},
+            readNodeFail: {text: "Unabled to read node. Check permissions", type: "danger"},
             updateNodeFail: {text: "Unabled to update node", type: "danger"},
             deleteNodeFail: {text: "Unabled to delete node", type: "danger"},
 

@@ -122,5 +122,9 @@ angular.module('myApp.node', ['ngRoute', 'drupalService'])
                     $scope.nodes[i].user = User.get({uid: $scope.nodes[i]._internals.uid[0].target_id})
                 }
             }
+        }, function (result) {
+            console.log(result);
+            var message = {text: MESSAGES.listNodeFail.text + ' (' + result.status + ': ' + result.statusText + ')', type: MESSAGES.deleteNodeFail.type};
+            $scope.messages.push(message);
         });
     });

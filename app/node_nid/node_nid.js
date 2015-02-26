@@ -81,8 +81,11 @@ angular.module('myApp.node_nid', ['ngRoute', 'drupalService'])
                 // Comment posted, refresh the comment list
                 $scope.comments = Comment.query({nid: $routeParams.nid});
                 // TODO redirect
-            }, function(result) {
-                var message = {text: MESSAGES.createCommentFail.text + ' (' + result.status + ': ' + result.statusText + ')', type: MESSAGES.deleteNodeFail.type};
+            }, function (result) {
+                var message = {
+                    text: MESSAGES.createCommentFail.text + ' (' + result.status + ': ' + result.statusText + ')',
+                    type: MESSAGES.deleteNodeFail.type
+                };
                 $scope.messages.push(message);
             });
         };
