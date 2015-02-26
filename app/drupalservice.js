@@ -2,36 +2,34 @@
 
 var mod = angular.module('drupalService', ['ngResource']);
 
-mod.hal = {
-    fromServer: function (hal) {
-        var internals = hal._internals = {};
-
-        // Inject the nid (last element from href
-        var nid = hal._links.self.href.split(/\//).pop();
-        internals.nid = [{value: nid, _drupal: 'https://www.drupal.org/node/2304849'}];
-
-        // Transform _links into node fields
-        angular.forEach(hal._links, function (value, key) {
-            if (key === 'self') {
-                return;
-            }
-            if (key === 'type') {
-                return;
-            }
-            var id = key.split(/\//).pop();
-            internals[id] = [];
-            angular.forEach(value, function (val, index) {
-                internals[id].push({target_id: val.href.split(/\//).pop()});
-            });
-        });
-
-    },
-    toServer: function (hal) {
-        delete hal._internals;
-    }
-};
-
 mod.drupal = {
+    hal: {
+        fromServer: function (hal) {
+            var internals = hal._internals = {};
+
+            // Inject the nid (last element from href
+            var nid = hal._links.self.href.split(/\//).pop();
+            internals.nid = [{value: nid, _drupal: 'https://www.drupal.org/node/2304849'}];
+
+            // Transform _links into node fields
+            angular.forEach(hal._links, function (value, key) {
+                if (key === 'self') {
+                    return;
+                }
+                if (key === 'type') {
+                    return;
+                }
+                var id = key.split(/\//).pop();
+                internals[id] = [];
+                angular.forEach(value, function (val, index) {
+                    internals[id].push({target_id: val.href.split(/\//).pop()});
+                });
+            });
+        },
+        toServer: function (hal) {
+            delete hal._internals;
+        }
+    },
     mode: 'hal+json',
     setMode: function (mode) {
         if (mod.drupal.mode !== mode) {
@@ -100,8 +98,9 @@ mod
                 },
                 transformResponse: function (data, headersGetter) {
                     var json = angular.fromJson(data);
+                    // TODO: this is not a HAL collection yet: https://www.drupal.org/node/2100637
                     angular.forEach(json, function (node, index) {
-                        mod.hal.fromServer(node);
+                        mod.drupal.hal.fromServer(node);
                     });
                     return json;
                 }
@@ -116,7 +115,7 @@ mod
                 },
                 transformResponse: function (data, headersGetter) {
                     var node = angular.fromJson(data);
-                    mod.hal.fromServer(node);
+                    mod.drupal.hal.fromServer(node);
                     return node;
                 }
 
@@ -126,7 +125,7 @@ mod
                 method: 'PATCH',
                 url: SERVER.URL + '/node/:nid',
                 transformRequest: function (data, headersGetter) {
-                    mod.hal.toServer(data);
+                    mod.drupal.hal.toServer(data);
 
                     mod.drupal.setHeaders('PATCH', DrupalState, headersGetter);
 
@@ -148,7 +147,7 @@ mod
                 method: 'POST',
                 url: SERVER.URL + '/entity/node',
                 transformRequest: function (data, headersGetter) {
-                    mod.hal.toServer(data);
+                    mod.drupal.hal.toServer(data);
                     headersGetter()['Content-Type'] = 'application/hal+json';
                     headersGetter()['Accept'] = 'application/json';
 
