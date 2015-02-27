@@ -14,14 +14,6 @@ angular
         'myApp.node_lifecycle'
     ])
     .constant({
-        'SERVER': {
-            // Use with default install beneath Drupal root/app
-            'URL': ''
-            // Use with CORS configured server
-            //'URL': 'http://drupal.d8'
-            // TODO: fix for inline nid?
-            //'URL': 'https://www.drupal.org/api-d7/node/1.json'
-        },
         'ISSUES': {
             site: {
                 nameSloganLogo: {

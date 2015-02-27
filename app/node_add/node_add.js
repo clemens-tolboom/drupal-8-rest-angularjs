@@ -34,37 +34,18 @@ angular.module('myApp.node_add', ['ngRoute', 'drupalService'])
                     value: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
                 }
             ],
-            "_links": {
-                "http:\/\/drupal.d8\/rest\/relation\/node\/article\/uid": [
-                    {
-                        "href": "http:\/\/drupal.d8\/user\/1"
-                    }
-                ],
-                "type": {
-                    "href": "http:\/\/drupal.d8\/rest\/type\/node\/article"
+            _links: {
+                type: {
+                    href: DrupalState.getType('node', 'article')
                 }
             }
         };
 
+        $scope.node._links[DrupalState.getURL() + '/rest/relation/node/article/uid'] = [{
+            "href": DrupalState.getURL() + '/user\/1'
+        }];
+
         $scope.postNode = function () {
-            var node = {
-                "title": [
-                    "Title: iyBci1TVidlk X7iei0p"
-                ],
-                "body": {
-                    "value": "Body: 1xGwZX RXxfd3QqlSge8tzsttALHTM4UgKodFo1AWgNZ4ahWrv1V2ulw24bVQfN4"
-                },
-                "_links": {
-                    "http:\/\/drupal.d8\/rest\/relation\/node\/article\/uid": [
-                        {
-                            "href": "http:\/\/drupal.d8\/user\/0"
-                        }
-                    ],
-                    "type": {
-                        "href": DrupalState.getType( 'node', 'article')
-                    }
-                }
-            };
             Node.create({}, $scope.node, function (result) {
                 $location.path('/node');
             }, function (result) {
