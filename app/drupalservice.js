@@ -44,7 +44,7 @@ mod.drupal = {
             headersGetter()['X-CSRF-Token'] = user.token;
         }
         else {
-            console.log('Unable to get token');
+            console.log('No token found yet.');
         }
     },
     addBasicAuth: function (DrupalState, headersGetter) {
@@ -84,12 +84,12 @@ mod.drupal = {
 };
 
 mod
-    .factory('Node', ['SERVER', '$resource', 'DrupalState', function (SERVER, $resource, DrupalState) {
+    .factory('Node', ['$resource', 'DrupalState', function ($resource, DrupalState) {
         return $resource('/node/:nid', {nid: '@nid'}, {
 
             query: {
                 method: 'GET',
-                url: SERVER.URL + '/node',
+                url: DrupalState.getURL() + '/node',
                 isArray: true,
                 transformRequest: function (data, headersGetter) {
                     mod.drupal.setHeaders('GET', DrupalState, headersGetter);
@@ -107,7 +107,7 @@ mod
             },
             fetch: {
                 method: 'GET',
-                url: SERVER.URL + '/node/:nid',
+                url: DrupalState.getURL() + '/node/:nid',
                 transformRequest: function (data, headersGetter) {
                     mod.drupal.setHeaders('GET', DrupalState, headersGetter);
 
@@ -123,7 +123,7 @@ mod
 
             patch: {
                 method: 'PATCH',
-                url: SERVER.URL + '/node/:nid',
+                url: DrupalState.getURL() + '/node/:nid',
                 transformRequest: function (data, headersGetter) {
                     mod.drupal.hal.toServer(data);
 
@@ -135,7 +135,7 @@ mod
 
             remove: {
                 method: 'DELETE',
-                url: SERVER.URL + '/node/:nid',
+                url: DrupalState.getURL() + '/node/:nid',
                 transformRequest: function (data, headersGetter) {
                     mod.drupal.setHeaders('DELETE', DrupalState, headersGetter);
 
@@ -145,7 +145,7 @@ mod
 
             create: {
                 method: 'POST',
-                url: SERVER.URL + '/entity/node',
+                url: DrupalState.getURL() + '/entity/node',
                 transformRequest: function (data, headersGetter) {
                     mod.drupal.hal.toServer(data);
                     headersGetter()['Content-Type'] = 'application/hal+json';
@@ -165,12 +165,12 @@ mod
         });
     }])
 
-    .factory('NodeByTerm', ['SERVER', '$resource', function (SERVER, $resource) {
-        return $resource(SERVER.URL + '/taxonomy/term/:tid', {tid: '@tid'}, {});
+    .factory('NodeByTerm', ['$resource', 'DrupalState', function ($resource, DrupalState) {
+        return $resource(DrupalState.getURL() + '/taxonomy/term/:tid', {tid: '@tid'}, {});
     }])
 
-    .factory('TaxonomyTerm', ['SERVER', '$resource', function (SERVER, $resource) {
-        return $resource(SERVER.URL + '/taxonomy/list/:tid', {tid: '@tid'}, {
+    .factory('TaxonomyTerm', ['$resource', 'DrupalState', function ($resource, DrupalState) {
+        return $resource(DrupalState.getURL() + '/taxonomy/list/:tid', {tid: '@tid'}, {
             'fetch': {
                 method: 'GET',
                 //transformRequest: function (data, headersGetter) {
@@ -189,12 +189,12 @@ mod
         });
     }])
 
-    .factory('User', ['SERVER', '$resource', 'DrupalState', function (SERVER, $resource, DrupalState) {
-        return $resource(SERVER.URL + '/user/:uid', {uid: '@uid'}, {
+    .factory('User', ['$resource', 'DrupalState', function ($resource, DrupalState) {
+        return $resource(DrupalState.getURL() + '/user/:uid', {uid: '@uid'}, {
             // User login: https://www.drupal.org/node/2403307
             login: {
                 method: 'POST',
-                url: '/user_login',
+                url: DrupalState.getURL() + '/user_login',
                 transformRequest: function (data, headersGetter) {
                     headersGetter()['Content-Type'] = 'application/json';
                     headersGetter()['Accept'] = 'application/json';
@@ -220,7 +220,7 @@ mod
             },
             logout: {
                 method: 'POST',
-                url: '/user_login',
+                url: DrupalState.getURL() + '/user_login',
                 transformRequest: function (data, headersGetter) {
                     headersGetter()['Content-Type'] = 'application/json';
                     headersGetter()['Accept'] = 'application/json';
@@ -244,11 +244,11 @@ mod
         });
     }])
 
-    .factory('Comment', ['SERVER', '$resource', function (SERVER, $resource) {
-        return $resource(SERVER.URL + '/node/:nid/comments', {nid: '@nid'}, {
+    .factory('Comment', ['$resource', 'DrupalState', function ($resource, DrupalState) {
+        return $resource(DrupalState.getURL() + '/node/:nid/comments', {nid: '@nid'}, {
             'post': {
                 method: 'POST',
-                url: '/entity/comment',
+                url: DrupalState.getURL() + '/entity/comment',
                 transformRequest: function (data, headersGetter) {
                     headersGetter().Accept = 'application/hal+json';
                     headersGetter()['Content-Type'] = 'application/hal+json';
@@ -257,8 +257,8 @@ mod
         });
     }])
 
-    .factory('Token', ['SERVER', '$resource', function (SERVER, $resource) {
-        return $resource(SERVER.URL + '/rest/session/token', {}, {
+    .factory('Token', ['$resource', 'DrupalState', function ($resource, DrupalState) {
+        return $resource(DrupalState.getURL() + '/rest/session/token', {}, {
             fetch: {
                 method: 'GET',
                 transformResponse: function (data, headersGetter) {
@@ -291,9 +291,33 @@ mod
             },
             logout: function () {
 
+            },
+            getURL: function () {
+                var config = state.get('SERVER');
+                var url = config.scheme + '://' + config.host;
+                if (config.user !== '') {
+                    url += config.user + ':' + config.pass;
+                }
+                if (config.port !== '80') {
+                    url += ':' + config.port;
+                }
+                if (config.path !== '') {
+                    url += ':' + config.path;
+                }
+                return url;
+            },
+            getType: function (type, bundle) {
+                // rest/type/node/article
+                return state.getURL() + '/rest/type/' + type + '/' + bundle;
+
             }
         };
         state.set('user', {username: null, password: null, authenticated: false, authMethod: 'COOKIE'});
+
+        // TODO: is using document.config evil?
+        // http://stackoverflow.com/questions/22825706/angularjs-load-config-on-app-start
+        state.set('SERVER', document.config.SERVER);
+
         state.set('X-CSRF-Token', null);
 
         return state;

@@ -9,7 +9,7 @@ angular.module('myApp.node_add', ['ngRoute', 'drupalService'])
         });
     }])
 
-    .controller('NodeAddCtrl', function ($scope, $routeParams, $location, MESSAGES, Node, User, TaxonomyTerm, Comment) {
+    .controller('NodeAddCtrl', function ($scope, $routeParams, $location, MESSAGES, Node, User, TaxonomyTerm, Comment, DrupalState) {
         $scope.breadcrumb = [
             {
                 path: '',
@@ -61,7 +61,7 @@ angular.module('myApp.node_add', ['ngRoute', 'drupalService'])
                         }
                     ],
                     "type": {
-                        "href": "http:\/\/drupal.d8\/rest\/type\/node\/article"
+                        "href": DrupalState.getType( 'node', 'article')
                     }
                 }
             };
