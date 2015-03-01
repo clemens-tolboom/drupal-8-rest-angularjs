@@ -148,10 +148,8 @@ mod
                 url: DrupalState.getURL() + '/entity/node',
                 transformRequest: function (data, headersGetter) {
                     mod.drupal.hal.toServer(data);
-                    headersGetter()['Content-Type'] = 'application/hal+json';
-                    headersGetter()['Accept'] = 'application/json';
 
-                    mod.drupal.addToken(DrupalState, headersGetter);
+                    mod.drupal.setHeaders('POST', DrupalState, headersGetter);
 
                     return angular.toJson(data);
                 },
@@ -191,6 +189,21 @@ mod
 
     .factory('User', ['$resource', 'DrupalState', function ($resource, DrupalState) {
         return $resource(DrupalState.getURL() + '/user/:uid', {uid: '@uid'}, {
+            fetch: {
+                method: 'GET',
+                url: DrupalState.getURL() + '/user/:uid',
+                transformRequest: function (data, headersGetter) {
+                    mod.drupal.setHeaders('GET', DrupalState, headersGetter);
+
+                    return angular.toJson(data);
+                },
+                transformResponse: function (data, headersGetter) {
+                    var node = angular.fromJson(data);
+                    mod.drupal.hal.fromServer(node);
+                    return node;
+                }
+
+            },
             // User login: https://www.drupal.org/node/2403307
             login: {
                 method: 'POST',
@@ -246,12 +259,34 @@ mod
 
     .factory('Comment', ['$resource', 'DrupalState', function ($resource, DrupalState) {
         return $resource(DrupalState.getURL() + '/node/:nid/comments', {nid: '@nid'}, {
+            query: {
+                method: 'GET',
+                url: DrupalState.getURL() + '/node/:nid/comments',
+                isArray: true,
+                transformRequest: function (data, headersGetter) {
+                    mod.drupal.setHeaders('GET', DrupalState, headersGetter);
+
+                    return angular.toJson(data);
+                },
+                transformResponse: function (data, headersGetter) {
+                    var json = angular.fromJson(data);
+                    // TODO: this is not a HAL collection yet: https://www.drupal.org/node/2100637
+                    angular.forEach(json, function (node, index) {
+                        mod.drupal.hal.fromServer(node);
+                    });
+                    return json;
+                }
+            },
+
             'post': {
                 method: 'POST',
                 url: DrupalState.getURL() + '/entity/comment',
                 transformRequest: function (data, headersGetter) {
-                    headersGetter().Accept = 'application/hal+json';
-                    headersGetter()['Content-Type'] = 'application/hal+json';
+                    mod.drupal.hal.toServer(data);
+
+                    mod.drupal.setHeaders('POST', DrupalState, headersGetter);
+
+                    return angular.toJson(data);
                 }
             }
         });
