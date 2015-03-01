@@ -312,11 +312,29 @@ mod
 
             }
         };
-        state.set('user', {username: null, password: null, authenticated: false, authMethod: 'COOKIE'});
+        var user = {username: null, password: null, authenticated: false, authMethod: 'COOKIE'};
+        state.set('user', user);
 
         // TODO: is using document.config evil?
         // http://stackoverflow.com/questions/22825706/angularjs-load-config-on-app-start
-        state.set('SERVER', document.config.SERVER);
+        var config = document.config;
+
+        // Required
+        state.set('SERVER', config.SERVER);
+
+        if (angular.isDefined(config.USER)) {
+            console.log("Setting config.USER");
+            if (angular.isDefined(config.USER.username)) {
+                user.username = config.USER.username;
+            }
+            if (angular.isDefined(config.USER.password)) {
+                user.password = config.USER.password;
+            }
+            if (angular.isDefined(config.USER.authMethod)) {
+                user.authMethod = config.USER.authMethod;
+            }
+        }
+
 
         state.set('X-CSRF-Token', null);
 

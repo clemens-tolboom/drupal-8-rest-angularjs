@@ -10,7 +10,18 @@ document.config = {
         'path': '',
         'query': '',
         'fragment': ''
+    },
+    USER : {
+        // We target cookie but that needs token or login
+        //authMethod: 'COOKIE',
+        // Use BASIC_AUTH for now
+        authMethod: 'BASIC_AUTH',
+        // default username not for production
+        //username: 'rest_user',
+        // default password not for production
+        //password: 'rest_password',
     }
+    */
 };
 
 console.log("Using config", document.config);

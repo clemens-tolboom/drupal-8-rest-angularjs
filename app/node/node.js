@@ -53,6 +53,15 @@ angular.module('myApp.node', ['ngRoute', 'drupalService'])
 
         $scope.messages.push(MESSAGES.loginMethod);
 
+        $scope.user = DrupalState.get('user');
+        if (!$scope.user.token) {
+            Token.fetch({}, function (item) {
+                $scope.user.token = item.token;
+            }, function () {
+                $scope.messages.push(MESSAGES.tokenFail);
+            });
+        }
+
         $scope.userLogin = function () {
             if ($scope.user.username && $scope.user.password) {
                 if ($scope.user.authMethod === 'BASIC_AUTH') {
@@ -86,15 +95,6 @@ angular.module('myApp.node', ['ngRoute', 'drupalService'])
                 }
             }
         };
-
-        $scope.user = DrupalState.get('user');
-        if (!$scope.user.token) {
-            Token.fetch({}, function (item) {
-                $scope.user.token = item.token;
-            }, function () {
-                $scope.messages.push(MESSAGES.tokenFail);
-            });
-        }
 
         /**
          * Get the term.name from $scope.tags
