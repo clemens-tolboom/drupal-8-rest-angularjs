@@ -43,7 +43,8 @@ angular.module('myApp.node_lifecycle', ['ngRoute', 'drupalService'])
                     $scope.nodes[i].user = User.get({uid: $scope.nodes[i]._internals.uid[0].target_id}, function (){
                         console.log('Success');
                     }, function(result) {
-                        var message = {text: MESSAGES.readNodeFail.text + ' (' + result.status + ': ' + result.statusText + ')', type: MESSAGES.readNodeFail.type};
+                        console.log(result);
+                        var message = {text: MESSAGES.readUserFail.text + ' ' + result.config.url + ' (' + result.status + ': ' + result.statusText + ')', type: MESSAGES.readNodeFail.type};
                         $scope.messages.push(message);
                     })
                 }

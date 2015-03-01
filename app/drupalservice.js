@@ -49,7 +49,7 @@ mod.drupal = {
     },
     addBasicAuth: function (DrupalState, headersGetter) {
         var user = DrupalState.get('user');
-        if (user.username && user.password) {
+        if (user.authenticated && user.username && user.password) {
             headersGetter()['PHP_AUTH_USER'] = user.username;
             headersGetter()['PHP_AUTH_PW'] = user.password;
         }

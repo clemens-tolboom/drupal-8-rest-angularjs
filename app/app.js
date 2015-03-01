@@ -83,7 +83,12 @@ angular
             createCommentFail: {text: "Unabled to create comment", type: "danger"},
             readCommentFail: {text: "Unabled to read comment. Have you added the view node/nid/comments ?", type: "danger"},
             updateCommentFail: {text: "Unabled to update comment", type: "danger"},
-            deleteCommentFail: {text: "Unabled to delete comment", type: "danger"}
+            deleteCommentFail: {text: "Unabled to delete comment", type: "danger"},
+
+            createUserFail: {text: "Unabled to create user", type: "danger"},
+            readUserFail: {text: "Unabled to read user. Check permissions", type: "danger"},
+            updateUserFail: {text: "Unabled to update user", type: "danger"},
+            deleteUserFail: {text: "Unabled to delete user", type: "danger"}
         }
     })
 
