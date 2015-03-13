@@ -345,6 +345,11 @@ mod
                 // rest/type/node/article
                 return state.getURL() + '/rest/type/' + type + '/' + bundle;
 
+            },
+            getRelation: function (type, bundle) {
+                // rest/type/node/article
+                return state.getURL() + '/rest/relation/' + type + '/' + bundle + '/entity_id';
+
             }
         };
         var user = {username: null, password: null, authenticated: false, authMethod: 'COOKIE'};
