@@ -41,10 +41,6 @@ angular.module('myApp.node_add', ['ngRoute', 'drupalService'])
             }
         };
 
-        $scope.node._links[DrupalState.getURL() + '/rest/relation/node/article/uid'] = [{
-            "href": DrupalState.getURL() + '/user\/1'
-        }];
-
         $scope.postNode = function () {
             Node.create({}, $scope.node, function (result) {
                 $location.path('/node');
