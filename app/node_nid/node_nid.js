@@ -48,6 +48,13 @@ angular.module('myApp.node_nid', ['ngRoute', 'drupalService'])
             } else {
                 $scope.node.user = User.get({uid: $scope.node._internals.uid[0].target_id})
             }
+        }, function(result) {
+            var message = {
+                text: MESSAGES.readNodeFail.text + ' (' + result.status + ': ' + result.statusText + ')',
+                type: MESSAGES.readNodeFail.type
+            };
+            $scope.messages.push(message);
+
         });
 
 
@@ -59,7 +66,7 @@ angular.module('myApp.node_nid', ['ngRoute', 'drupalService'])
         }, function (result) {
             var message = {
                 text: MESSAGES.readCommentFail.text + ' (' + result.status + ': ' + result.statusText + ')',
-                type: MESSAGES.deleteNodeFail.type
+                type: MESSAGES.readCommentFail.type
             };
             $scope.messages.push(message);
 
@@ -93,7 +100,6 @@ angular.module('myApp.node_nid', ['ngRoute', 'drupalService'])
             }
         };
         $scope.newComment._links[DrupalState.getRelation('node', 'article')] = [{"href": DrupalState.getURL() + '/node/' + $routeParams.nid}];
-        console.log(JSON.stringify($scope.newComment, null, 2));
 
         $scope.postComment = function () {
             // Post new comment to this node. $scope.newComment contains the http payload
