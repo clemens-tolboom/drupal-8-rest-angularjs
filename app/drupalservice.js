@@ -1,5 +1,6 @@
 'use strict';
 
+// TODO: refactor this out of global scope as it breaks when minifying
 var mod = angular.module('drupalService', ['ngResource']);
 
 mod.drupal = {
@@ -171,10 +172,12 @@ mod
         return $resource(DrupalState.getURL() + '/taxonomy/list/:tid', {tid: '@tid'}, {
             'fetch': {
                 method: 'GET',
-                //transformRequest: function (data, headersGetter) {
+                transformRequest: function (data, headersGetter) {
+                    // TODO: respect mod.drupal.mode
+                    // TODO: we currently send default headers (application/json)
                 //    headersGetter().Accept = 'application/hal+json';
                 //    headersGetter()['Content-Type'] = 'application/hal+json';
-                //}
+                },
                 transformResponse: function (data, headersGetter) {
                     var json = angular.fromJson(data);
                     var hash = {};
@@ -363,7 +366,7 @@ mod
         state.set('SERVER', config.SERVER);
 
         if (angular.isDefined(config.USER)) {
-            console.log("Setting config.USER");
+            //console.log("Setting config.USER");
             if (angular.isDefined(config.USER.username)) {
                 user.username = config.USER.username;
             }
