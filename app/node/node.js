@@ -119,11 +119,10 @@ angular.module('myApp.node', ['ngRoute', 'drupalService'])
                 if ($scope.nodes[i]._internals.uid[0].target_id == 0) {
                     $scope.nodes[i].user = anonymousUser;
                 } else {
-                    $scope.nodes[i].user = User.get({uid: $scope.nodes[i]._internals.uid[0].target_id})
+                    $scope.nodes[i].user = User.fetch({uid: $scope.nodes[i]._internals.uid[0].target_id})
                 }
             }
         }, function (result) {
-            console.log(result);
             var message = {text: MESSAGES.listNodeFail.text + ' (' + result.status + ': ' + result.statusText + ')', type: MESSAGES.deleteNodeFail.type};
             $scope.messages.push(message);
         });
