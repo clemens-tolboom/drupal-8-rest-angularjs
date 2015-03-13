@@ -9,7 +9,7 @@ angular.module('myApp.node_nid', ['ngRoute', 'drupalService'])
         });
     }])
 
-    .controller('NodeNidCtrl', function ($scope, $routeParams, $location, MESSAGES, Node, User, TaxonomyTerm, Comment) {
+    .controller('NodeNidCtrl', function ($scope, $routeParams, $location, MESSAGES, Node, User, TaxonomyTerm, Comment, DrupalState) {
         $scope.messages = [];
         // TODO: DRY this code is used in node.js too.
         var anonymousUser = {
@@ -55,7 +55,7 @@ angular.module('myApp.node_nid', ['ngRoute', 'drupalService'])
         $scope.comments = Comment.query({
             nid: $routeParams.nid
         }, function (response) {
-
+            console.log($scope.comments[0]);
         }, function (result) {
             var message = {
                 text: MESSAGES.readCommentFail.text + ' (' + result.status + ': ' + result.statusText + ')',
@@ -78,31 +78,25 @@ angular.module('myApp.node_nid', ['ngRoute', 'drupalService'])
             $scope.node = {};
         };
 
-        //$scope.newComment = {
-        //    "title": [
-        //        "Title: iyBci1TVidlk X7iei0p"
-        //    ],
-        //    "body": {
-        //        "value": "Body: 1xGwZX RXxfd3QqlSge8tzsttALHTM4UgKodFo1AWgNZ4ahWrv1V2ulw24bVQfN4"
-        //    },
-        //    "_links": {
-        //        "http:\/\/drupal.d8\/rest\/relation\/node\/article\/uid": [
-        //            {
-        //                "href": "http:\/\/drupal.d8\/user\/0"
-        //            }
-        //        ],
-        //        "type": {
-        //            "href": "http:\/\/drupal.d8\/rest\/type\/node\/article"
-        //        }
-        //
-        //    }
-        //};
+        $scope.newComment = {
+            "subject": [{
+                value: "Title: iyBci1TVidlk X7iei0p"
+            }],
+            "comment_body": [{
+                "value": "Body: 1xGwZX RXxfd3QqlSge8tzsttALHTM4UgKodFo1AWgNZ4ahWrv1V2ulw24bVQfN4"
+            }],
+            "_links": {
+                type: {
+                    "href": DrupalState.getType('comment', 'comment')
+                }
+
+            }
+        };
+        $scope.newComment._links[DrupalState.getRelation('node', 'article')] = [{"href": DrupalState.getURL() + '/node/' + $routeParams.nid}];
+        console.log(JSON.stringify($scope.newComment, null, 2));
 
         $scope.postComment = function () {
             // Post new comment to this node. $scope.newComment contains the http payload
-            $scope.newComment.entity_type = 'node';
-            $scope.newComment.field_name = 'comment';
-            $scope.newComment.entity_id = [{"target_id": $routeParams.nid}];
             Comment.post({}, $scope.newComment, function (response) {
                 // Comment posted, refresh the comment list
                 $scope.comments = Comment.query({nid: $routeParams.nid});
