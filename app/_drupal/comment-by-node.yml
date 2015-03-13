@@ -1,9 +1,7 @@
-uuid: c2527692-c874-42cf-b700-af1db10bd5e0
+uuid: 7a0af42b-5c8f-4082-9609-0998318acb4d
 langcode: en
 status: true
 dependencies:
-  config:
-    - comment.type.comment
   module:
     - comment
     - node
@@ -14,7 +12,7 @@ label: 'Comments by node'
 module: views
 description: ''
 tag: ''
-base_table: comment
+base_table: comment_field_data
 base_field: cid
 core: 8.x
 display:
@@ -27,7 +25,7 @@ display:
       access:
         type: perm
         options:
-          perm: 'access content'
+          perm: 'access comments'
       cache:
         type: none
         options: {  }
@@ -150,15 +148,6 @@ display:
           expose:
             operator: ''
           group: 1
-        comment_type:
-          id: comment_type
-          table: comment
-          field: comment_type
-          value:
-            comment: comment
-          entity_type: comment
-          entity_field: comment_type
-          plugin_id: bundle
       sorts: {  }
       header: {  }
       footer: {  }
@@ -171,16 +160,15 @@ display:
           relationship: node
           group_type: group
           admin_label: ''
-          default_action: 'not found'
+          default_action: default
           exception:
             value: all
             title_enable: false
             title: All
           title_enable: false
           title: ''
-          default_argument_type: fixed
-          default_argument_options:
-            argument: ''
+          default_argument_type: node
+          default_argument_options: {  }
           default_argument_skip_url: false
           summary_options:
             base_path: ''
@@ -191,17 +179,26 @@ display:
             sort_order: asc
             number_of_records: 0
             format: default_summary
-          specify_validation: false
+          specify_validation: true
           validate:
-            type: none
+            type: 'entity:node'
             fail: 'not found'
-          validate_options: {  }
+          validate_options:
+            operation: view
+            multiple: '0'
+            bundles: {  }
+            access: 0
           break_phrase: false
           not: false
           entity_type: node
           entity_field: nid
           plugin_id: numeric
       display_extenders: {  }
+    cache_metadata:
+      contexts:
+        0: cache.context.url
+        2: language
+      cacheable: false
   rest_export_1:
     display_plugin: rest_export
     id: rest_export_1
@@ -224,3 +221,8 @@ display:
       row:
         type: data_entity
         options: {  }
+    cache_metadata:
+      contexts:
+        0: cache.context.url
+        2: language
+      cacheable: false
