@@ -14,14 +14,6 @@ angular
         'myApp.node_lifecycle'
     ])
     .constant({
-        'SERVER': {
-            // Use with default install beneath Drupal root/app
-            'URL': ''
-            // Use with CORS configured server
-            //'URL': 'http://drupal.d8'
-            // TODO: fix for inline nid?
-            //'URL': 'https://www.drupal.org/api-d7/node/1.json'
-        },
         'ISSUES': {
             site: {
                 nameSloganLogo: {
@@ -71,9 +63,32 @@ angular
             }
         },
         MESSAGES: {
+            // Contains message { text:'', type: 'success | info | warning | danger' }
+
             termList: {text: "Unable to fetch list of terms. Have you added view taxonomy/list ?", type: "danger"},
-            loginFail: {text: "Cannot login.", type: 'warning'},
-            tokenFail: {text: "Unable to fetch token.", type: "warning"}
+
+            loginMethod: {text: "You need to use BASIC_AUTH unless you applied https://www.drupal.org/node/2403307 or are logged into Drupal on same domain.", type: 'info'},
+            loginBasicAuth: {text: "Using your username and password for every request (BASIC_AUTH).", type: 'info'},
+            loginFail: {text: "Cannot login. Have you applied https://www.drupal.org/node/2403307 ?", type: 'warning'},
+            logoutFail: {text: "Cannot logout.", type: 'warning'},
+
+            tokenFail: {text: "Unable to fetch token.", type: "warning"},
+
+            listNodeFail: {text: "Unabled to read nodes. Have you exposed REST export display?", type: "danger"},
+            createNodeFail: {text: "Unabled to create node", type: "danger"},
+            readNodeFail: {text: "Unabled to read node. Check permissions", type: "danger"},
+            updateNodeFail: {text: "Unabled to update node", type: "danger"},
+            deleteNodeFail: {text: "Unabled to delete node", type: "danger"},
+
+            createCommentFail: {text: "Unabled to create comment", type: "danger"},
+            readCommentFail: {text: "Unabled to read comment. Have you added the view node/nid/comments ?", type: "danger"},
+            updateCommentFail: {text: "Unabled to update comment", type: "danger"},
+            deleteCommentFail: {text: "Unabled to delete comment", type: "danger"},
+
+            createUserFail: {text: "Unabled to create user", type: "danger"},
+            readUserFail: {text: "Unabled to read user. Check permissions", type: "danger"},
+            updateUserFail: {text: "Unabled to update user", type: "danger"},
+            deleteUserFail: {text: "Unabled to delete user", type: "danger"}
         }
     })
 

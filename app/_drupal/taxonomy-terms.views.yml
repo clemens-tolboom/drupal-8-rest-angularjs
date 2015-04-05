@@ -1,4 +1,4 @@
-uuid: 1125e91a-9688-42f3-9900-fdf3e69aacc7
+uuid: e685c4f3-5d1a-4a87-8500-ae53201d7452
 langcode: en
 status: true
 dependencies:
@@ -11,7 +11,7 @@ label: 'Taxonomy Terms'
 module: views
 description: ''
 tag: ''
-base_table: taxonomy_term_data
+base_table: taxonomy_term_field_data
 base_field: tid
 core: 8.x
 display:
@@ -34,7 +34,7 @@ display:
           disable_sql_rewrite: false
           distinct: false
           replica: false
-          query_comment: false
+          query_comment: ''
           query_tags: {  }
       exposed_form:
         type: basic
@@ -81,37 +81,55 @@ display:
           id: name
           table: taxonomy_term_field_data
           field: name
-          entity_type: taxonomy_term
-          entity_field: name
-          label: ''
-          alter:
-            alter_text: false
-            make_link: false
-            absolute: false
-            trim: false
-            word_boundary: false
-            ellipsis: false
-            strip_tags: false
-            html: false
-          hide_empty: false
-          empty_zero: false
-          link_to_taxonomy: true
-          plugin_id: taxonomy
           relationship: none
           group_type: group
           admin_label: ''
+          label: ''
           exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: false
+            ellipsis: false
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
           element_type: ''
           element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: true
+          element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
           empty: ''
+          hide_empty: false
+          empty_zero: false
           hide_alter_empty: true
+          link_to_taxonomy: false
           convert_spaces: false
+          entity_type: taxonomy_term
+          entity_field: name
+          plugin_id: taxonomy
         tid:
           id: tid
           table: taxonomy_term_data
@@ -138,7 +156,7 @@ display:
             suffix: ''
             target: ''
             nl2br: false
-            max_length: ''
+            max_length: 0
             word_boundary: true
             ellipsis: true
             more_link: false
@@ -163,7 +181,7 @@ display:
           set_precision: false
           precision: 0
           decimal: .
-          separator: ','
+          separator: ''
           format_plural: false
           format_plural_singular: '1'
           format_plural_plural: '@count'
@@ -174,7 +192,7 @@ display:
           plugin_id: numeric
         vid:
           id: vid
-          table: taxonomy_term_field_data
+          table: taxonomy_term_data
           field: vid
           relationship: none
           group_type: group
@@ -198,7 +216,7 @@ display:
             suffix: ''
             target: ''
             nl2br: false
-            max_length: ''
+            max_length: 0
             word_boundary: true
             ellipsis: true
             more_link: false
@@ -231,8 +249,10 @@ display:
       relationships: {  }
       arguments: {  }
       display_extenders: {  }
-      field_langcode: '***LANGUAGE_language_content***'
-      field_langcode_add_to_query: null
+    cache_metadata:
+      contexts:
+        - language
+      cacheable: false
   rest_export_1:
     display_plugin: rest_export
     id: rest_export_1
@@ -240,8 +260,6 @@ display:
     position: 1
     display_options:
       display_extenders: {  }
-      field_langcode: '***LANGUAGE_language_content***'
-      field_langcode_add_to_query: null
       path: taxonomy/list
       pager:
         type: some
@@ -251,6 +269,7 @@ display:
       style:
         type: serializer
         options:
+          grouping: {  }
           uses_fields: false
           formats: {  }
       row:
@@ -259,10 +278,8 @@ display:
           field_options:
             name:
               alias: ''
-              raw_output: true
-            tid:
-              alias: ''
-              raw_output: true
-            vid:
-              alias: ''
-              raw_output: true
+              raw_output: false
+    cache_metadata:
+      contexts:
+        - language
+      cacheable: false

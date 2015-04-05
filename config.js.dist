@@ -1,0 +1,27 @@
+// http://stackoverflow.com/questions/22825706/angularjs-load-config-on-app-start
+// http://php.net/manual/en/function.parse-url.php
+document.config = {
+    'SERVER': {
+        'scheme': 'http',
+        'host': 'drupal.d8',
+        'port': '80',
+        'user': '',
+        'pass': '',
+        'path': '',
+        'query': '',
+        'fragment': ''
+    },
+    USER : {
+        // We target cookie but that needs token or login
+        //authMethod: 'COOKIE',
+        // Use BASIC_AUTH for now
+        authMethod: 'BASIC_AUTH',
+        // default username not for production
+        //username: 'rest_user',
+        // default password not for production
+        //password: 'rest_password',
+    }
+    */
+};
+
+console.log("Using config", document.config);

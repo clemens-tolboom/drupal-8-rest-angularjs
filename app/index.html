@@ -23,10 +23,10 @@
     <div ng-view></div>
 </div>
 <footer>
-  <aside>
-      <header>Powered by</header>
-      <p>Drupal, Angular and Bootstrap</p>
-  </aside>
+    <aside>
+        <header>Powered by</header>
+        <p>Drupal, Angular and Bootstrap</p>
+    </aside>
     <aside>
         <header>Developed by</header>
         <p>The Drupal Community</p>
@@ -35,6 +35,8 @@
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/angular-route/angular-route.js"></script>
 <script src="bower_components/angular-resource/angular-resource.js"></script>
+<script src="app.js"></script>
+<script src="config.js"></script>
 <script src="drupalservice.js"></script>
 <script src="cacheservice.js"></script>
 <script src="app.js"></script>
@@ -69,6 +71,7 @@
         </ul>
     </aside>
     <ng-include ng-if="user && !user.authenticated" src="'login-block'"></ng-include>
+    <ng-include ng-if="user && user.authenticated" src="'logout-block'"></ng-include>
 
     <ng-include src="'about'"></ng-include>
 </script>
@@ -129,11 +132,17 @@
         <form>
             <div class="form-group">
                 <label>Username</label>
-                <input type="text" required="required" class="form-control" ng-model="user.username">
+                <input type="text" required="required" class="form-control" ng-model="user.username"
+                       placeholder="your username">
             </div>
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" required="required" class="form-control" ng-model="user.password">
+                <input type="password" required="required" class="form-control" ng-model="user.password"
+                       placeholder="your password">
+            </div>
+            <div class="form-group">
+                <input type="radio" ng-model="user.authMethod" value="COOKIE"> Cookie
+                <input type="radio" ng-model="user.authMethod" value="BASIC_AUTH"> Basic auth
             </div>
             <div class="form-group">
                 <input type="button" class="btn btn-info" value="Login" ng-click="userLogin();">
@@ -147,10 +156,16 @@
                        class="request-password-link">Reset your password</a></li>
             </ul>
         </div>
-        </div>
     </aside>
-
 </script>
 
+<script type='text/ng-template' id="logout-block">
+    <aside>
+        <header>User</header>
+        <ul>
+            <li><a title="Logout" ng-click="userLogout();">Logout</a></li>
+        </ul>
+    </aside>
+</script>
 </body>
 </html>

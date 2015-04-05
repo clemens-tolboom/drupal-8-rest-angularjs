@@ -19,6 +19,9 @@ angular.module('myApp.node', ['ngRoute', 'drupalService'])
             ]
         };
 
+        // How to connect to Drupal
+        $scope.auth = DrupalState.get('user').authMethod;
+
         $scope.issues = {
             'title': 'Front page',
             'items': [
@@ -46,15 +49,9 @@ angular.module('myApp.node', ['ngRoute', 'drupalService'])
             }
         ];
 
-        // Contains message { text:'', type: 'success | info | warning | danger' }
         $scope.messages = [];
 
-        $scope.userLogin = function () {
-            if ($scope.user.username && $scope.user.password) {
-                $scope.messages.push(MESSAGES.loginFail);
-                console.log($scope.user);
-            }
-        };
+        $scope.messages.push(MESSAGES.loginMethod);
 
         $scope.user = DrupalState.get('user');
         if (!$scope.user.token) {
@@ -64,6 +61,40 @@ angular.module('myApp.node', ['ngRoute', 'drupalService'])
                 $scope.messages.push(MESSAGES.tokenFail);
             });
         }
+
+        $scope.userLogin = function () {
+            if ($scope.user.username && $scope.user.password) {
+                if ($scope.user.authMethod === 'BASIC_AUTH') {
+                    $scope.messages.push(MESSAGES.loginBasicAuth);
+                    $scope.user.authenticated = true;
+                }
+                else if ($scope.user.authMethod === 'COOKIE') {
+                    User.login({}, function (result) {
+                        $scope.messages.push({text: result.response, type: 'success'});
+                        $scope.user.authenticated = true;
+                    }, function (result) {
+                        $scope.messages.push(MESSAGES.loginFail);
+                    });
+                }
+            }
+        };
+
+        $scope.userLogout = function () {
+            if ($scope.user.authenticated) {
+                $scope.user.password = '';
+                if ($scope.user.authMethod === 'BASIC_AUTH') {
+                    $scope.user.authenticated = false;
+                }
+                else if ($scope.user.authMethod === 'COOKIE') {
+                    User.logout({}, function (result) {
+                        $scope.messages.push({text: result.response, type: 'success'});
+                        $scope.user.authenticated = false;
+                    }, function (result) {
+                        $scope.messages.push(MESSAGES.logoutFail);
+                    });
+                }
+            }
+        };
 
         /**
          * Get the term.name from $scope.tags
@@ -88,8 +119,11 @@ angular.module('myApp.node', ['ngRoute', 'drupalService'])
                 if ($scope.nodes[i]._internals.uid[0].target_id == 0) {
                     $scope.nodes[i].user = anonymousUser;
                 } else {
-                    $scope.nodes[i].user = User.get({uid: $scope.nodes[i]._internals.uid[0].target_id})
+                    $scope.nodes[i].user = User.fetch({uid: $scope.nodes[i]._internals.uid[0].target_id})
                 }
             }
+        }, function (result) {
+            var message = {text: MESSAGES.listNodeFail.text + ' (' + result.status + ': ' + result.statusText + ')', type: MESSAGES.deleteNodeFail.type};
+            $scope.messages.push(message);
         });
     });

@@ -25,6 +25,10 @@ $ cd /var/www/drupal
 $ ln -s /path/to/drupal-8-rest-angularjs/app .
 ```
 
+### config.js
+
+You must copy `config.js.dist` to `app/config.js` and change it's values.
+
 ### Installing on a CORS configured server
 
 When having configured your web server of the .htaccess with core you should change the app.js config section.

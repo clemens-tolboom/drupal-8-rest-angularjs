@@ -1,3 +1,4 @@
+/app/config.js
 logs/*
 !.gitkeep
 node_modules/
