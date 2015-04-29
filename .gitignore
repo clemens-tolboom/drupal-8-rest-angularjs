@@ -1,3 +1,4 @@
+# Do not add local config. See /config.js.dist
 /app/config.js
 logs/*
 !.gitkeep
