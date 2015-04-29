@@ -102,8 +102,10 @@ angular.module('myApp.node_nid', ['ngRoute', 'drupalService'])
         $scope.newComment._links[DrupalState.getRelation('node', 'article')] = [{"href": DrupalState.getURL() + '/node/' + $routeParams.nid}];
 
         $scope.postComment = function () {
+            console.log($scope.newComment);
             // Post new comment to this node. $scope.newComment contains the http payload
             Comment.post({}, $scope.newComment, function (response) {
+                console.log(response);
                 // Comment posted, refresh the comment list
                 $scope.comments = Comment.query({nid: $routeParams.nid});
                 // TODO redirect

@@ -55,6 +55,7 @@ mod.drupal = {
         if (user.authenticated && user.username && user.password) {
             headersGetter()['PHP_AUTH_USER'] = user.username;
             headersGetter()['PHP_AUTH_PW'] = user.password;
+            console.log('Set BASIC_AUTH on header');
         }
         else {
             console.log('Unable to use BASIC_AUTH');
@@ -307,7 +308,12 @@ mod
                     mod.drupal.setHeaders('POST', DrupalState, headersGetter);
 
                     return angular.toJson(data);
+                },
+                transformResponse: function (data, headersGetter) {
+                    console.log(headersGetter());
+                    return data;
                 }
+
             }
         });
     }])

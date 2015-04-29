@@ -123,7 +123,10 @@ angular.module('myApp.node', ['ngRoute', 'drupalService'])
                 }
             }
         }, function (result) {
-            var message = {text: MESSAGES.listNodeFail.text + ' (' + result.status + ': ' + result.statusText + ')', type: MESSAGES.deleteNodeFail.type};
+            var message = {
+                text: MESSAGES.listNodeFail.text + ' (' + result.status + ': ' + result.statusText + ')',
+                type: MESSAGES.deleteNodeFail.type
+            };
             $scope.messages.push(message);
         });
     });
