@@ -21,7 +21,6 @@ document.config = {
         // default password not for production
         //password: 'rest_password',
     }
-    */
 };
 
 console.log("Using config", document.config);
