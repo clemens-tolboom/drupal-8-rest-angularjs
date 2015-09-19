@@ -86,20 +86,29 @@ angular.module('myApp.node_nid', ['ngRoute', 'drupalService'])
         };
 
         $scope.newComment = {
-            "subject": [{
-                value: "Title: iyBci1TVidlk X7iei0p"
+            subject: [{
+                value: "Title"
             }],
-            "comment_body": [{
-                "value": "Body: 1xGwZX RXxfd3QqlSge8tzsttALHTM4UgKodFo1AWgNZ4ahWrv1V2ulw24bVQfN4"
+            comment_body: [{
+                value: "Body"
             }],
-            "_links": {
+            "entity_type": [{
+                value: "node"
+            }],
+            comment_type: [{
+                target_id: "comment"
+            }],
+            field_name: [{
+               value: 'comment'
+            }],
+            _links: {
                 type: {
-                    "href": DrupalState.getType('comment', 'comment')
+                    href: DrupalState.getType('comment', 'comment')
                 }
 
             }
         };
-        $scope.newComment._links[DrupalState.getRelation('node', 'article')] = [{"href": DrupalState.getURL() + '/node/' + $routeParams.nid}];
+        $scope.newComment._links[DrupalState.getRelation('node', 'article')] = [{href: DrupalState.getURL() + '/node/' + $routeParams.nid}];
 
         $scope.postComment = function () {
             console.log($scope.newComment);
