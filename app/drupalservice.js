@@ -127,6 +127,8 @@ mod
                         if (data.indexOf('<') === 0) {
                             // we received HTML
                             // TODO: raise an exception somehow
+                            console.log('ERROR: ');
+                            json = [{'_error': 'HTML received on /node. Check your Drupal config.'}];
                         }
                         else {
                             // TODO: refactor this into mod.drupal section

@@ -9,6 +9,7 @@
         <ng-include src="'dog-ear'"></ng-include>
         <ng-include src="'messages'"></ng-include>
         <article ng-repeat="node in nodes">
+            <p ng-if="node._error">ERROR: {{ node._error }}</p>
             <h2>
                 <a href="#/node/{{ node._internals.nid[0].value }}">
                     {{ node.title[0].value }}
