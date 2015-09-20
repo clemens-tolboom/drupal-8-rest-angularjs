@@ -34,12 +34,26 @@ mod.drupal = {
         }
     },
     mode: 'hal+json',
+    getMode: function() {
+        return mod.drupal.mode;
+    },
     setMode: function (mode) {
-        if (mod.drupal.mode !== mode) {
+        if (mod.drupal.getMode() !== mode) {
             if (mode === 'json' || mode === 'hal+json') {
                 mod.drupal.mode = mode;
             }
         }
+    },
+    getFormat: function() {
+      if (mod.drupal.getMode() == 'json') {
+          return 'json';
+      }
+      else if (mod.drupal.getMode() == 'hal+json') {
+          return 'hal_json';
+      }
+      else {
+          return 'unsupported_format';
+      }
     },
     addToken: function (DrupalState, headersGetter) {
         var user = DrupalState.get('user');
@@ -66,12 +80,12 @@ mod.drupal = {
         if (method === 'POST' || method === 'PATCH') {
             addContentType = true;
         }
-        if (mod.drupal.mode === 'hal+json') {
+        if (mod.drupal.getMode() === 'hal+json') {
             headersGetter().Accept = 'application/hal+json';
             if (addContentType === true) {
                 headersGetter()['Content-Type'] = 'application/hal+json';
             }
-        } else if (mod.drupal.mode === 'json') {
+        } else if (mod.drupal.getMode() === 'json') {
             headersGetter().Accept = 'application/json';
             if (addContentType === true) {
                 headersGetter()['Content-Type'] = 'application/json';
@@ -86,7 +100,7 @@ mod.drupal = {
         }
     },
     collection : function(json) {
-        if (mod.drupal.mode ==='hal+json') {
+        if (mod.drupal.getMode() ==='hal+json') {
             angular.forEach(json, function (node, index) {
                 mod.drupal.hal.fromServer(node);
             });
@@ -96,7 +110,7 @@ mod.drupal = {
 
 mod
     .factory('Node', ['$resource', 'DrupalState', function ($resource, DrupalState) {
-        return $resource('/node/:nid', {nid: '@nid'}, {
+        return $resource('/node/:nid', {nid: '@nid', _format: mod.drupal.getFormat()}, {
 
             query: {
                 method: 'GET',
@@ -183,15 +197,15 @@ mod
     }])
 
     .factory('NodeByTerm', ['$resource', 'DrupalState', function ($resource, DrupalState) {
-        return $resource(DrupalState.getURL() + '/taxonomy/term/:tid', {tid: '@tid'}, {});
+        return $resource(DrupalState.getURL() + '/taxonomy/term/:tid', {tid: '@tid', _format: mod.drupal.getFormat()}, {});
     }])
 
     .factory('TaxonomyTerm', ['$resource', 'DrupalState', function ($resource, DrupalState) {
-        return $resource(DrupalState.getURL() + '/taxonomy/list/:tid', {tid: '@tid'}, {
+        return $resource(DrupalState.getURL() + '/taxonomy/list/:tid', {tid: '@tid', _format: mod.drupal.getFormat()}, {
             'fetch': {
                 method: 'GET',
                 transformRequest: function (data, headersGetter) {
-                    // TODO: respect mod.drupal.mode
+                    // TODO: respect mod.drupal.getMode()
                     // TODO: we currently send default headers (application/json)
                 //    headersGetter().Accept = 'application/hal+json';
                 //    headersGetter()['Content-Type'] = 'application/hal+json';
@@ -209,7 +223,7 @@ mod
     }])
 
     .factory('User', ['$resource', 'DrupalState', function ($resource, DrupalState) {
-        return $resource(DrupalState.getURL() + '/user/:uid', {uid: '@uid'}, {
+        return $resource(DrupalState.getURL() + '/user/:uid', {uid: '@uid', _format: mod.drupal.getFormat()}, {
             fetch: {
                 method: 'GET',
                 url: DrupalState.getURL() + '/user/:uid',
@@ -279,7 +293,7 @@ mod
     }])
 
     .factory('Comment', ['$resource', 'DrupalState', function ($resource, DrupalState) {
-        return $resource(DrupalState.getURL() + '/node/:nid/comments', {nid: '@nid'}, {
+        return $resource(DrupalState.getURL() + '/node/:nid/comments', {nid: '@nid', _format: mod.drupal.getFormat()}, {
             query: {
                 method: 'GET',
                 url: DrupalState.getURL() + '/node/:nid/comments',
@@ -319,7 +333,7 @@ mod
     }])
 
     .factory('Token', ['$resource', 'DrupalState', function ($resource, DrupalState) {
-        return $resource(DrupalState.getURL() + '/rest/session/token', {}, {
+        return $resource(DrupalState.getURL() + '/rest/session/token', {_format: mod.drupal.getFormat()}, {
             fetch: {
                 method: 'GET',
                 transformResponse: function (data, headersGetter) {
