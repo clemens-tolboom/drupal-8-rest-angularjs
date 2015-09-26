@@ -333,7 +333,8 @@ mod
     }])
 
     .factory('Token', ['$resource', 'DrupalState', function ($resource, DrupalState) {
-        return $resource(DrupalState.getURL() + '/rest/session/token', {_format: mod.drupal.getFormat()}, {
+        /* TODO: remove comment or _format: it seems ok not to specify format which kinda put burden on client */
+        return $resource(DrupalState.getURL() + '/rest/session/token', {/*_format: mod.drupal.getFormat()*/}, {
             fetch: {
                 method: 'GET',
                 transformResponse: function (data, headersGetter) {
