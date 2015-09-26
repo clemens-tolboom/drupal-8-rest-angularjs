@@ -20,7 +20,8 @@ document.config = {
         //username: 'rest_user',
         // default password not for production
         //password: 'rest_password',
-    }
+    },
+    MODE: 'json'
 };
 
 console.log("Using config", document.config);

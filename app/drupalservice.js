@@ -382,6 +382,9 @@ mod
                 }
                 return url;
             },
+            getMode: function() {
+                var config = state.get('MODE');
+            },
             getType: function (type, bundle) {
                 // rest/type/node/article
                 return state.getURL() + '/rest/type/' + type + '/' + bundle;
@@ -403,6 +406,9 @@ mod
         // Required
         state.set('SERVER', config.SERVER);
 
+        state.set('MODE', config.MODE);
+        mod.drupal.setMode(config.MODE);
+
         if (angular.isDefined(config.USER)) {
             //console.log("Setting config.USER");
             if (angular.isDefined(config.USER.username)) {
@@ -415,7 +421,6 @@ mod
                 user.authMethod = config.USER.authMethod;
             }
         }
-
 
         state.set('X-CSRF-Token', null);
 
