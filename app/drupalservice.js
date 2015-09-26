@@ -263,9 +263,8 @@ mod
                     return angular.toJson(data);
                 },
                 transformResponse: function (data, headersGetter) {
-                    // return raw token data
-                    console.log(data);
-                    return {response: data};
+                    var json = angular.fromJson(data);
+                    return json;
                 }
             },
             logout: {
@@ -285,9 +284,8 @@ mod
                     return angular.toJson(data);
                 },
                 transformResponse: function (data, headersGetter) {
-                    // return raw token data
-                    console.log(data);
-                    return {response: data};
+                    var json = angular.fromJson(data);
+                    return json;
                 }
 
             }
