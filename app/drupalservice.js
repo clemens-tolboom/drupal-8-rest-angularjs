@@ -399,7 +399,7 @@ mod
 
             }
         };
-        var user = {username: null, password: null, authenticated: false, authMethod: 'COOKIE'};
+        var user = {username: null, password: null, authenticated: true, authMethod: 'COOKIE'};
         state.set('user', user);
 
         // TODO: is using document.config evil?

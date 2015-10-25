@@ -22,6 +22,8 @@ hosted on the same hostname and port as the Drupal 8 instance running
 the ReST api. The easiest way is to copy or symlink the `app` directory from
 this repo to to root of your Drupal 8 installation.
 
+BASIC AUTH is currently broken on [authenticated users](https://www.drupal.org/node/2504433) and [views REST export](https://www.drupal.org/node/2228141) so we use COOKIE based.
+
 ```bash
 # Go to your Drupal 8 root directory
 $ cd /var/www/drupal

@@ -13,9 +13,9 @@ document.config = {
     },
     USER : {
         // We target cookie but that needs token or login
-        //authMethod: 'COOKIE',
+        authMethod: 'COOKIE',
         // Use BASIC_AUTH for now
-        authMethod: 'BASIC_AUTH',
+        //authMethod: 'BASIC_AUTH',
         // default username not for production
         //username: 'rest_user',
         // default password not for production
