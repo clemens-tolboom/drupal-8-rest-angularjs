@@ -185,9 +185,9 @@ display:
             fail: 'not found'
           validate_options:
             operation: view
-            multiple: '0'
+            multiple: 0
             bundles: {  }
-            access: 0
+            access: false
           break_phrase: false
           not: false
           entity_type: node
@@ -196,9 +196,15 @@ display:
       display_extenders: {  }
     cache_metadata:
       contexts:
-        0: cache.context.url
-        2: language
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - request_format
+        - url
+        - url.query_args
+        - user.permissions
       cacheable: false
+      max-age: -1
+      tags: {  }
   rest_export_1:
     display_plugin: rest_export
     id: rest_export_1
@@ -223,6 +229,11 @@ display:
         options: {  }
     cache_metadata:
       contexts:
-        0: cache.context.url
-        2: language
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - request_format
+        - url
+        - user.permissions
       cacheable: false
+      max-age: -1
+      tags: {  }
