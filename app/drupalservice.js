@@ -9,9 +9,12 @@ mod.drupal = {
             var internals = hal._internals = {};
 
             if (angular.isObject(hal._links)) {
-                // Inject the nid (last element from href
-                var nid = hal._links.self.href.split(/\//).pop();
-                internals.nid = [{value: nid, _drupal: 'https://www.drupal.org/node/2304849'}];
+                // TODO: why is this nid ... we have comments, users, files, etc.
+                // Inject the nid (last element from href)
+                var id = hal._links.self.href.split(/\//).pop();
+                // :-( scrub ?_format away
+                id = id.split("?").shift();
+                internals.nid = [{value: id, _drupal: 'https://www.drupal.org/node/2304849'}];
 
                 // Transform _links into node fields
                 angular.forEach(hal._links, function (value, key) {
@@ -21,10 +24,10 @@ mod.drupal = {
                     if (key === 'type') {
                         return;
                     }
-                    var id = key.split(/\//).pop();
+                    id = key.split(/\//).pop();
                     internals[id] = [];
                     angular.forEach(value, function (val, index) {
-                        internals[id].push({target_id: val.href.split(/\//).pop()});
+                        internals[id].push({target_id: val.href.split(/\//).pop().split("?").shift()});
                     });
                 });
             }
