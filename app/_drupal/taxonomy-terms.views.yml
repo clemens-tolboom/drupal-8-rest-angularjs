@@ -251,8 +251,14 @@ display:
       display_extenders: {  }
     cache_metadata:
       contexts:
-        - language
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - request_format
+        - url.query_args
+        - user.permissions
       cacheable: false
+      max-age: -1
+      tags: {  }
   rest_export_1:
     display_plugin: rest_export
     id: rest_export_1
@@ -281,5 +287,10 @@ display:
               raw_output: false
     cache_metadata:
       contexts:
-        - language
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - request_format
+        - user.permissions
       cacheable: false
+      max-age: -1
+      tags: {  }
