@@ -58,7 +58,25 @@ angular
             user: {
                 login: {
                     title: 'User login',
-                    description: 'Should we use basic auth on every call or use cookie and get token?'
+                    description: 'Use session based same origin instead of BASIC AUTH which requires token too.',
+                    urls : [
+                        {
+                            url: 'https://www.drupal.org/node/2403307',
+                            title: 'Create a User session cookie login resource'
+                        },{
+                            url: 'https://www.drupal.org/node/2291055',
+                            title: 'Creation of entity type user without credential is not working (Create a Resource for user registration)'
+                        },{
+                            url: 'https://www.drupal.org/node/1869548',
+                            title: 'Enable CORS for GET requests'
+                        },{
+                            url: 'https://www.drupal.org/node/2504433',
+                            title: 'REST cookie auth overrides basic auth?'
+                        },{
+                            url: 'https://www.drupal.org/node/2228141#comment-10512954',
+                            title: 'Add authentication support for Views'
+                        }
+                    ]
                 }
             }
         },
