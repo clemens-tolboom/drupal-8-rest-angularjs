@@ -51,7 +51,8 @@ angular.module('myApp.node', ['ngRoute', 'drupalService'])
 
         $scope.messages = [];
 
-        $scope.messages.push(MESSAGES.loginMethod);
+        // TODO: no need to push this message when using session based cookie + token
+        //$scope.messages.push(MESSAGES.loginMethod);
 
         $scope.user = DrupalState.get('user');
         if (!$scope.user.token) {
