@@ -103,8 +103,8 @@ mod.drupal = {
             mod.drupal.addBasicAuth(DrupalState, headersGetter);
         }
     },
-    collection : function(json) {
-        if (mod.drupal.getMode() ==='hal+json') {
+    collection: function (json) {
+        if (mod.drupal.getMode() === 'hal+json') {
             angular.forEach(json, function (node, index) {
                 mod.drupal.hal.fromServer(node);
             });
@@ -214,7 +214,10 @@ mod
     }])
 
     .factory('NodeByTerm', ['$resource', 'DrupalState', function ($resource, DrupalState) {
-        return $resource(DrupalState.getURL() + '/taxonomy/term/:tid', {tid: '@tid', _format: mod.drupal.getFormat()}, {});
+        return $resource(DrupalState.getURL() + '/taxonomy/term/:tid', {
+            tid: '@tid',
+            _format: mod.drupal.getFormat()
+        }, {});
     }])
 
     .factory('TaxonomyTerm', ['$resource', 'DrupalState', function ($resource, DrupalState) {
@@ -224,8 +227,8 @@ mod
                 transformRequest: function (data, headersGetter) {
                     // TODO: respect mod.drupal.getMode()
                     // TODO: we currently send default headers (application/json)
-                //    headersGetter().Accept = 'application/hal+json';
-                //    headersGetter()['Content-Type'] = 'application/hal+json';
+                    //    headersGetter().Accept = 'application/hal+json';
+                    //    headersGetter()['Content-Type'] = 'application/hal+json';
                 },
                 transformResponse: function (data, headersGetter) {
                     var json = angular.fromJson(data);
@@ -397,7 +400,7 @@ mod
                 }
                 return url;
             },
-            getMode: function() {
+            getMode: function () {
                 var config = state.get('MODE');
             },
             getType: function (type, bundle) {

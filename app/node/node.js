@@ -116,6 +116,7 @@ angular.module('myApp.node', ['ngRoute', 'drupalService'])
         };
 
         $scope.nodes = Node.query({}, function (nodes) {
+
             for (var i = 0; i < $scope.nodes.length; i++) {
                 var uid = REST.getID('uid', $scope.nodes[i]);
                 var nid = REST.getID('nid', $scope.nodes[i]);

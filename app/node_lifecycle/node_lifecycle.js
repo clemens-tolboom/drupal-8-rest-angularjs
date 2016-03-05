@@ -9,7 +9,7 @@ angular.module('myApp.node_lifecycle', ['ngRoute', 'drupalService'])
         });
     }])
 
-    .controller('NodeLifeCycleCtrl', ["$scope", "$routeParams", "MESSAGES", "Node", "User", "TaxonomyTerm", "Comment", function ($scope, $routeParams, MESSAGES, Node, User, TaxonomyTerm, Comment) {
+    .controller('NodeLifeCycleCtrl', ["$scope", "$routeParams", "MESSAGES", "Node", "User", "TaxonomyTerm", "Comment", "REST", function ($scope, $routeParams, MESSAGES, Node, User, TaxonomyTerm, Comment, REST) {
         $scope.messages = [];
 
         // TODO: DRY alert
@@ -36,11 +36,13 @@ angular.module('myApp.node_lifecycle', ['ngRoute', 'drupalService'])
 
         $scope.nodes = Node.query({}, function (nodes) {
             for (var i = 0; i < $scope.nodes.length; i++) {
-                console.log($scope.nodes[i]);
-                if ($scope.nodes[i]._internals.uid[0].target_id === 0) {
+                $scope.nodes[i].uid = REST.getID('uid', $scope.nodes[i]);
+                $scope.nodes[i].nid = REST.getID('nid', $scope.nodes[i]);
+
+                if ($scope.nodes[i].uid[0].target_id === 0) {
                     $scope.nodes[i].user = anonymousUser;
                 } else {
-                    $scope.nodes[i].user = User.get({uid: $scope.nodes[i]._internals.uid[0].target_id}, function (){
+                    $scope.nodes[i].user = User.get({uid: $scope.nodes[i].uid[0].target_id}, function (){
                         console.log('Success');
                     }, function(result) {
                         console.log(result);
@@ -52,7 +54,7 @@ angular.module('myApp.node_lifecycle', ['ngRoute', 'drupalService'])
         });
 
         $scope.fetchNode = function () {
-            $scope.node = Node.fetch({nid: $scope.node._internals.nid[0].value}, function (){
+            $scope.node = Node.fetch({nid: $scope.node.nid[0].value}, function (){
                 console.log('Success');
             }, function(result) {
                 var message = {text: MESSAGES.readNodeFail.text + ' (' + result.status + ': ' + result.statusText + ')', type: MESSAGES.readNodeFail.type};
@@ -61,7 +63,7 @@ angular.module('myApp.node_lifecycle', ['ngRoute', 'drupalService'])
         };
 
         $scope.updateNode = function () {
-            Node.patch({nid: $scope.node._internals.nid[0].value}, $scope.node, function (){
+            Node.patch({nid: $scope.node.nid[0].value}, $scope.node, function (){
                 console.log('Success');
             }, function(result) {
                 var message = {text: MESSAGES.updateNodeFail.text + ' (' + result.status + ': ' + result.statusText + ')', type: MESSAGES.updateNodeFail.type};
