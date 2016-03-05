@@ -9,7 +9,7 @@ angular.module('myApp.node', ['ngRoute', 'drupalService'])
         });
     }])
 
-    .controller('NodeCtrl', function ($scope, ISSUES, MESSAGES, Node, User, TaxonomyTerm, DrupalState, Token) {
+    .controller('NodeCtrl', function ($scope, ISSUES, MESSAGES, Node, User, TaxonomyTerm, DrupalState, Token, REST) {
         // TODO: DRY this code is used in node_nid.js too.
         var anonymousUser = {
             name: [
@@ -117,11 +117,16 @@ angular.module('myApp.node', ['ngRoute', 'drupalService'])
 
         $scope.nodes = Node.query({}, function (nodes) {
             for (var i = 0; i < $scope.nodes.length; i++) {
-                if ($scope.nodes[i]._internals.uid[0].target_id == 0) {
+                var uid = REST.getID('uid', $scope.nodes[i]);
+                var nid = REST.getID('nid', $scope.nodes[i]);
+
+                if (uid[0].target_id == 0) {
                     $scope.nodes[i].user = anonymousUser;
                 } else {
-                    $scope.nodes[i].user = User.fetch({uid: $scope.nodes[i]._internals.uid[0].target_id})
+                    $scope.nodes[i].user = User.fetch({uid: uid[0].target_id})
                 }
+                $scope.nodes[i].nid = nid;
+
             }
         }, function (result) {
             var message = {

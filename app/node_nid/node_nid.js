@@ -9,7 +9,7 @@ angular.module('myApp.node_nid', ['ngRoute', 'drupalService'])
         });
     }])
 
-    .controller('NodeNidCtrl', function ($scope, $routeParams, $location, MESSAGES, Node, User, TaxonomyTerm, Comment, DrupalState) {
+    .controller('NodeNidCtrl', function ($scope, $routeParams, $location, MESSAGES, Node, User, TaxonomyTerm, Comment, DrupalState, REST) {
         $scope.messages = [];
         // TODO: DRY this code is used in node.js too.
         var anonymousUser = {
@@ -41,12 +41,13 @@ angular.module('myApp.node_nid', ['ngRoute', 'drupalService'])
                     title: $scope.node.title[0].value
                 }
             ];
+            var uid = REST.getID('uid', $scope.node);
 
             // If the node isn't anonymous then fetch the user entity
-            if ($scope.node._internals.uid[0].target_id == 0) {
+            if (uid[0].target_id == 0) {
                 $scope.node.user = anonymousUser;
             } else {
-                $scope.node.user = User.get({uid: $scope.node._internals.uid[0].target_id})
+                $scope.node.user = User.get({uid: uid[0].target_id})
             }
         }, function(result) {
             var message = {

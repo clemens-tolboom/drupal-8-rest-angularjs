@@ -4,6 +4,7 @@
 var mod = angular.module('drupalService', ['ngResource']);
 
 mod.drupal = {
+    // TODO: convert this to a service
     hal: {
         fromServer: function (hal) {
             var internals = hal._internals = {};
@@ -112,6 +113,17 @@ mod.drupal = {
 };
 
 mod
+    .value('REST', {
+            getID: function (id, data) {
+                if (mod.drupal.getMode() == 'hal+json') {
+                    return data._internals[id];
+                }
+                else {
+                    return data[id];
+                }
+            },
+        }
+    )
     .factory('Node', ['$resource', 'DrupalState', function ($resource, DrupalState) {
         return $resource('/node/:nid', {nid: '@nid', _format: mod.drupal.getFormat()}, {
 
